@@ -76,14 +76,16 @@ h2{font-size:21px;margin:0;font-weight:700;letter-spacing:-.01em}
 .wx .s{font-size:14px;color:var(--tx2);margin-top:2px}
 .wx .go{margin-left:auto;color:var(--tx3)}
 .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--acbg);color:var(--ac);vertical-align:3px;margin-left:6px;text-transform:uppercase;letter-spacing:.05em}
-.planes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.plan{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:76px;padding:8px 4px;border-radius:var(--r2);background:var(--s1);border:1px solid var(--line);font-weight:600;font-size:13px;text-align:center;transition:transform .12s;overflow:hidden;min-width:0}
+.planes{display:grid;grid-template-columns:repeat(auto-fit,minmax(60px,1fr));gap:7px}
+.plan{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:76px;padding:8px 4px;border-radius:var(--r2);background:var(--s1);border:1px solid var(--line);font-weight:600;font-size:12px;text-align:center;transition:transform .12s;overflow:hidden;min-width:0}
 .plan:active{transform:scale(.97)}
-.plan .pi{width:34px;height:34px;border-radius:10px;background:var(--s3);display:grid;place-items:center;color:var(--tx2);flex:none}
+.plan .pi{width:34px;height:34px;border-radius:10px;background:var(--s3);display:grid;place-items:center;color:var(--pcl,var(--tx2));flex:none}
 .plan span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.plan.on{background:var(--acbg);border-color:rgba(217,168,108,.45)}
-.plan.on .pi{background:var(--ac);color:var(--actx)}
+.plan.on{background:color-mix(in srgb,var(--pcf) 30%,var(--s1));border-color:var(--pcl)}
+.plan.on .pi{background:var(--pcf);color:#fff}
 .variantes{margin-top:8px}
+.variantes .seg button.on{background:var(--pc,#313137);color:#fff}
+.btn.pc{background:var(--pc,var(--ac));color:#fff}
 .pills{display:flex;gap:8px;flex-wrap:wrap}
 .pill{min-height:40px;padding:0 15px;border-radius:99px;background:var(--s2);border:1px solid var(--line);font-size:15px;font-weight:600;color:var(--tx2)}
 .pill.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
@@ -194,6 +196,35 @@ details.mas summary::-webkit-details-marker{display:none}
 ol.pasos{padding-left:22px;margin:4px 0 0;line-height:1.55;color:var(--tx2)}
 ol.pasos li{margin-bottom:10px}
 ol.pasos b{color:var(--tx)}
+.look{display:flex;flex-direction:column;gap:8px}
+.look-acc{display:flex;gap:8px;justify-content:center}
+.look-acc .lt{width:104px}
+.look-top{display:grid;gap:8px;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
+.look-top.n1 .ph{aspect-ratio:2/1}
+.look-top.n4,.look-top.n5,.look-top.n6{grid-template-columns:repeat(2,minmax(0,1fr))}
+.look-bot{display:grid;grid-template-columns:1.3fr 1fr;gap:8px}
+.look-pies{display:flex;flex-direction:column;gap:8px}
+.look-pies .lt{flex:1;min-height:92px}
+.look-pies .lt .ph{position:absolute;inset:0;aspect-ratio:auto}
+.lt{position:relative;display:block;width:100%;border-radius:14px;overflow:hidden;background:color-mix(in srgb,var(--c) 24%,#141417);border:1px solid var(--line);transition:transform .12s}
+button.lt:active{transform:scale(.97)}
+.lt.on{box-shadow:inset 0 0 0 2px var(--pcl,var(--ac))}
+.lt .ph{aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
+.lt .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.lt.l .ph{aspect-ratio:3/4}
+.lt .glyph{width:60%;height:60%}
+.lt .cap{position:absolute;left:0;right:0;bottom:0;padding:20px 9px 8px;font-size:12px;font-weight:600;line-height:1.25;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.82),rgba(0,0,0,0))}
+.lt .cap span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lt .lock{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:9px;background:rgba(0,0,0,.5);display:grid;place-items:center;color:rgba(255,255,255,.85)}
+.lt .lock .ico{width:15px;height:15px}
+.lt.on .lock{background:var(--pc,var(--ac));color:#fff}
+.moto-row{margin-top:10px;background:var(--s1);border:1px solid var(--line);border-radius:var(--r2);padding:6px 12px;min-height:58px}
+.moto-row.on{border-color:var(--pcl,var(--ac))}
+.barba{display:flex;gap:12px;align-items:flex-start;background:rgba(239,159,39,.09);border:1px solid rgba(239,159,39,.35);border-radius:var(--r2);padding:12px 14px;margin-bottom:14px;font-size:14px;color:#FAC775}
+.barba b{color:var(--tx)}
+.barba .btn{min-height:38px;padding:0 13px;font-size:14px}
+.nota{display:flex;gap:8px;align-items:center;color:var(--tx2);font-size:14px;margin:-2px 2px 12px}
+.nota .ico{color:var(--pcl,var(--ac))}
 @media (min-width:700px){#main,#barra{padding-left:calc(50vw - 330px);padding-right:calc(50vw - 330px)}.grid3{grid-template-columns:repeat(4,1fr)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -213,7 +244,7 @@ ol.pasos b{color:var(--tx)}
 (function () {
 
 /* ============ CONSTANTES ============ */
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.1.0';
 const EN_IFRAME = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
 const MADRID = { lat: 40.4168, lon: -3.7038, nombre: 'Madrid' };
 
@@ -226,17 +257,20 @@ const FRANJAS = {
 const ORDEN_FRANJAS = ['manana', 'tarde', 'noche', 'dia'];
 
 const CAPAS = {
+  gafas: { label: 'Gafas de sol', orden: 0 },
   base: { label: 'Base', orden: 1 },
   corbata: { label: 'Corbata', orden: 2 },
   media: { label: 'Capa media', orden: 3 },
   americana: { label: 'Americana', orden: 4 },
   traje: { label: 'Traje', orden: 4 },
   abrigo: { label: 'Abrigo', orden: 5 },
+  moto: { label: 'Chaqueta de moto', orden: 5 },
   pantalon: { label: 'Pantalón', orden: 6 },
-  calzado: { label: 'Calzado', orden: 7 },
+  calcetines: { label: 'Calcetines', orden: 7 },
+  calzado: { label: 'Calzado', orden: 8 },
 };
-const ORDEN_CAPAS = ['base', 'media', 'americana', 'abrigo', 'pantalon', 'calzado', 'traje', 'corbata'];
-const FILTRO_CAPAS = { base: 'Base', media: 'Jerseys', americana: 'Americanas', traje: 'Trajes', abrigo: 'Abrigos', pantalon: 'Pantalones', calzado: 'Calzado', corbata: 'Corbatas' };
+const ORDEN_CAPAS = ['base', 'media', 'americana', 'abrigo', 'pantalon', 'calzado', 'calcetines', 'gafas', 'moto', 'traje', 'corbata'];
+const FILTRO_CAPAS = { base: 'Base', media: 'Jerseys', americana: 'Americanas', traje: 'Trajes', abrigo: 'Abrigos', moto: 'Moto', pantalon: 'Pantalones', calzado: 'Calzado', calcetines: 'Calcetines', gafas: 'Gafas', corbata: 'Corbatas' };
 
 /* g: género, n: número (para concordar el color), usos: usos antes de lavar (0 = solo rota) */
 const TIPOS = [
@@ -264,14 +298,31 @@ const TIPOS = [
   { id: 'chino', label: 'Chino', capa: 'pantalon', g: 'm', n: 's', abrigo: 2, form: 3, usos: 3, tejido: 'algodón', glifo: 'chino' },
   { id: 'pana', label: 'Pantalón de pana', capa: 'pantalon', g: 'm', n: 's', abrigo: 3, form: 3, usos: 4, tejido: 'pana', glifo: 'pantalon' },
   { id: 'pantalon-vestir', label: 'Pantalón de vestir', capa: 'pantalon', g: 'm', n: 's', abrigo: 2, form: 4, usos: 3, tejido: 'lana', glifo: 'pantalon' },
-  { id: 'corto', label: 'Pantalón corto', capa: 'pantalon', g: 'm', n: 's', abrigo: 1, form: 1, usos: 2, tejido: 'algodón', calor: true, glifo: 'corto' },
+  { id: 'corto', label: 'Pantalón corto', capa: 'pantalon', g: 'm', n: 's', abrigo: 1, form: 1, usos: 2, tejido: 'algodón', minT: 23, glifo: 'corto' },
   { id: 'jogger', label: 'Jogger', capa: 'pantalon', g: 'm', n: 's', abrigo: 2, form: 1, usos: 3, tejido: 'algodón', glifo: 'pantalon' },
   { id: 'zapatillas', label: 'Zapatillas', capa: 'calzado', g: 'f', n: 'p', abrigo: 2, form: 2, usos: 0, tejido: 'ante', glifo: 'zapatillas' },
   { id: 'zapatos', label: 'Zapatos', capa: 'calzado', g: 'm', n: 'p', abrigo: 2, form: 4, usos: 0, tejido: 'piel', glifo: 'zapatos' },
   { id: 'mocasines', label: 'Mocasines', capa: 'calzado', g: 'm', n: 'p', abrigo: 1, form: 3, usos: 0, tejido: 'piel', glifo: 'mocasines' },
   { id: 'botas', label: 'Botas', capa: 'calzado', g: 'f', n: 'p', abrigo: 3, form: 3, usos: 0, tejido: 'piel', imp: true, glifo: 'botas' },
   { id: 'nauticos', label: 'Náuticos', capa: 'calzado', g: 'm', n: 'p', abrigo: 1, form: 2, usos: 0, tejido: 'piel', glifo: 'zapatos' },
-  { id: 'sandalias', label: 'Sandalias', capa: 'calzado', g: 'f', n: 'p', abrigo: 0, form: 1, usos: 0, tejido: 'piel', calor: true, glifo: 'sandalias' },
+  { id: 'sandalias', label: 'Sandalias', capa: 'calzado', g: 'f', n: 'p', abrigo: 0, form: 1, usos: 0, tejido: 'piel', minT: 23, glifo: 'sandalias' },
+  { id: 'camiseta-tecnica', label: 'Camiseta técnica', capa: 'base', g: 'f', n: 's', abrigo: 1, form: 1, usos: 1, tejido: 'técnico', dep: true, glifo: 'camiseta' },
+  { id: 'sudadera-deporte', label: 'Sudadera de deporte', capa: 'media', g: 'f', n: 's', abrigo: 3, form: 1, usos: 2, tejido: 'técnico', dep: true, glifo: 'sudadera' },
+  { id: 'cortavientos', label: 'Cortavientos', capa: 'abrigo', g: 'm', n: 's', abrigo: 2, form: 1, usos: 0, tejido: 'técnico', imp: true, dep: true, glifo: 'cazadora' },
+  { id: 'corto-deporte', label: 'Pantalón corto de deporte', capa: 'pantalon', g: 'm', n: 's', abrigo: 1, form: 1, usos: 1, tejido: 'técnico', minT: 14, dep: true, glifo: 'corto' },
+  { id: 'chandal', label: 'Pantalón de chándal', capa: 'pantalon', g: 'm', n: 's', abrigo: 2, form: 1, usos: 2, tejido: 'técnico', dep: true, glifo: 'pantalon' },
+  { id: 'mallas', label: 'Mallas', capa: 'pantalon', g: 'f', n: 'p', abrigo: 2, form: 1, usos: 1, tejido: 'técnico', dep: true, glifo: 'pantalon' },
+  { id: 'zapatillas-deporte', label: 'Zapatillas de deporte', capa: 'calzado', g: 'f', n: 'p', abrigo: 2, form: 1, usos: 0, tejido: 'tela', dep: true, glifo: 'zapatillas' },
+  { id: 'calcetines-vestir', label: 'Calcetines de vestir', capa: 'calcetines', g: 'm', n: 'p', abrigo: 0, form: 4, usos: 1, tejido: 'algodón', glifo: 'calcetin' },
+  { id: 'calcetines-casual', label: 'Calcetines', capa: 'calcetines', g: 'm', n: 'p', abrigo: 0, form: 2, usos: 1, tejido: 'algodón', glifo: 'calcetin' },
+  { id: 'calcetines-invisibles', label: 'Calcetines invisibles', capa: 'calcetines', g: 'm', n: 'p', abrigo: 0, form: 2, usos: 1, tejido: 'algodón', glifo: 'calcetinCorto' },
+  { id: 'calcetines-lana', label: 'Calcetines de lana', capa: 'calcetines', g: 'm', n: 'p', abrigo: 1, form: 2, usos: 1, tejido: 'lana', glifo: 'calcetin' },
+  { id: 'calcetines-deporte', label: 'Calcetines de deporte', capa: 'calcetines', g: 'm', n: 'p', abrigo: 0, form: 1, usos: 1, tejido: 'algodón', dep: true, glifo: 'calcetinCorto' },
+  { id: 'gafas-sol', label: 'Gafas de sol', capa: 'gafas', g: 'f', n: 'p', abrigo: 0, form: 3, usos: 0, tejido: 'sintético', glifo: 'gafas' },
+  { id: 'moto-verano', label: 'Moto de verano', capa: 'moto', g: 'f', n: 's', abrigo: 1, form: 2, usos: 0, tejido: 'técnico', glifo: 'moto', nom: 'chaqueta de moto de verano' },
+  { id: 'moto-3estaciones', label: 'Moto 3 estaciones', capa: 'moto', g: 'f', n: 's', abrigo: 3, form: 2, usos: 0, tejido: 'técnico', imp: true, glifo: 'moto', nom: 'chaqueta de moto 3 estaciones' },
+  { id: 'moto-invierno', label: 'Moto de invierno', capa: 'moto', g: 'f', n: 's', abrigo: 4, form: 2, usos: 0, tejido: 'técnico', imp: true, glifo: 'moto', nom: 'chaqueta de moto de invierno' },
+  { id: 'moto-cuero', label: 'Moto de cuero', capa: 'moto', g: 'f', n: 's', abrigo: 3, form: 3, usos: 0, tejido: 'piel', glifo: 'moto', nom: 'chaqueta de moto de cuero' },
 ];
 const TIPO_MAP = Object.fromEntries(TIPOS.map(t => [t.id, t]));
 
@@ -306,19 +357,27 @@ const TEJIDO_NO_LLUVIA = ['ante', 'tela'];
 const CORTES = ['pitillo', 'slim', 'regular', 'ancho', 'oversize'];
 const NIVEL_FORM = ['', 'Muy informal', 'Informal', 'Arreglado', 'Elegante', 'Traje'];
 const NIVEL_ABRIGO = ['Nada', 'Fresquito', 'Ligero', 'Medio', 'Abriga', 'Mucho'];
-const ICONOS_PLAN = ['maletin', 'corazon', 'casa', 'jarra', 'estrella'];
+const ICONOS_PLAN = ['maletin', 'corazon', 'casa', 'jarra', 'pesa', 'estrella'];
+const PLAN_COLORES = {
+  azul: { fuerte: '#185FA5', claro: '#85B7EB' }, coral: { fuerte: '#993C1D', claro: '#F0997B' },
+  verde: { fuerte: '#3B6D11', claro: '#97C459' }, ambar: { fuerte: '#854F0B', claro: '#EF9F27' },
+  teal: { fuerte: '#0F6E56', claro: '#5DCAA5' }, morado: { fuerte: '#534AB7', claro: '#AFA9EC' },
+  rosa: { fuerte: '#993556', claro: '#ED93B1' },
+};
+const COLOR_GRUPO = { Trabajo: 'azul', Pareja: 'coral', Familia: 'verde', Amigos: 'ambar', Gimnasio: 'teal' };
 
 /* El código es público: aquí no van nombres propios. Tus planes personales llegan al importar. */
 const PLANES_DEFAULT = [
-  { id: 'trabajo-normal', grupo: 'Trabajo', nombre: 'Normal', icono: 'maletin', min: 1, max: 3, traje: false, sinMedia: false, excluir: [], preferir: [], franja: 'dia' },
-  { id: 'trabajo-evento', grupo: 'Trabajo', nombre: 'Evento importante', icono: 'maletin', min: 3, max: 4, traje: false, sinMedia: false, excluir: ['vaquero', 'zapatillas', 'camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias'], preferir: ['chino', 'camisa', 'zapatos', 'jersey-fino'], franja: 'dia' },
-  { id: 'trabajo-presidencia', grupo: 'Trabajo', nombre: 'Presidencia', icono: 'maletin', min: 3, max: 5, traje: true, sinMedia: true, excluir: ['vaquero', 'zapatillas', 'camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias', 'mocasines', 'nauticos', 'botas'], preferir: ['camisa-vestir', 'zapatos'], franja: 'dia' },
-  { id: 'pareja-paseo', grupo: 'Pareja', nombre: 'Paseo / cine', icono: 'corazon', min: 1, max: 3, traje: false, sinMedia: false, excluir: [], preferir: [], franja: null },
-  { id: 'pareja-cena', grupo: 'Pareja', nombre: 'Comida / cena', icono: 'corazon', min: 2, max: 4, traje: false, sinMedia: false, excluir: ['jogger', 'corto', 'sudadera'], preferir: [], franja: null },
-  { id: 'familia', grupo: 'Familia', nombre: 'Comida tranquila', icono: 'casa', min: 1, max: 3, traje: false, sinMedia: false, excluir: [], preferir: [], franja: 'tarde' },
-  { id: 'amigos', grupo: 'Amigos', nombre: 'Cañas', icono: 'jarra', min: 1, max: 3, traje: false, sinMedia: false, excluir: [], preferir: [], franja: 'tarde' },
+  { id: 'trabajo-normal', grupo: 'Trabajo', nombre: 'Normal', icono: 'maletin', color: 'azul', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: 'dia', nota: '' },
+  { id: 'trabajo-evento', grupo: 'Trabajo', nombre: 'Evento importante', icono: 'maletin', color: 'azul', min: 3, max: 4, traje: false, sinMedia: false, deporte: false, arreglo: true, excluir: ['vaquero', 'zapatillas', 'camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias'], preferir: ['chino', 'camisa', 'zapatos', 'jersey-fino'], franja: 'dia', nota: '' },
+  { id: 'trabajo-presidencia', grupo: 'Trabajo', nombre: 'Presidencia', icono: 'maletin', color: 'azul', min: 3, max: 5, traje: true, sinMedia: true, deporte: false, arreglo: true, excluir: ['vaquero', 'zapatillas', 'camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias', 'mocasines', 'nauticos', 'botas'], preferir: ['camisa-vestir', 'zapatos'], franja: 'dia', nota: '' },
+  { id: 'pareja-paseo', grupo: 'Pareja', nombre: 'Paseo / cine', icono: 'corazon', color: 'coral', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: null, nota: '' },
+  { id: 'pareja-cena', grupo: 'Pareja', nombre: 'Comida / cena', icono: 'corazon', color: 'coral', min: 2, max: 4, traje: false, sinMedia: false, deporte: false, arreglo: true, excluir: ['jogger', 'corto', 'sudadera'], preferir: [], franja: null, nota: '' },
+  { id: 'familia', grupo: 'Familia', nombre: 'Comida tranquila', icono: 'casa', color: 'verde', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: 'tarde', nota: '' },
+  { id: 'amigos', grupo: 'Amigos', nombre: 'Cañas', icono: 'jarra', color: 'ambar', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: 'tarde', nota: '' },
+  { id: 'gimnasio', grupo: 'Gimnasio', nombre: 'Entrenar', icono: 'pesa', color: 'teal', min: 1, max: 2, traje: false, sinMedia: false, deporte: true, arreglo: false, excluir: [], preferir: [], franja: null, nota: '' },
 ];
-const PERFIL_DEFAULT = { sensacion: 'normal', aprendido: 0, prefiero: [], evito: [], cortesEvito: [], ubicacion: { modo: 'auto', nombre: null, lat: null, lon: null } };
+const PERFIL_DEFAULT = { sensacion: 'normal', aprendido: 0, repasoCada: 4, prefiero: [], evito: [], cortesEvito: [], ubicacion: { modo: 'auto', nombre: null, lat: null, lon: null } };
 const REGLAS_DEFAULT = { noRepetirCalzado: true, diasSinRepetir: 0 };
 
 const EJEMPLO = [
@@ -328,6 +387,9 @@ const EJEMPLO = [
   ['cazadora', 'marron'], ['abrigo', 'camel'], ['plumifero', 'negro'],
   ['vaquero', 'denim'], ['chino', 'beige'], ['chino', 'marino'], ['pantalon-vestir', 'gris'],
   ['zapatillas', 'gris'], ['zapatillas', 'blanco', { tejido: 'piel' }], ['zapatos', 'marron'], ['botas', 'marron'],
+  ['calcetines-vestir', 'marino'], ['calcetines-casual', 'gris'], ['calcetines-deporte', 'blanco'],
+  ['gafas-sol', 'negro'], ['gafas-sol', 'marron'], ['moto-invierno', 'negro'], ['moto-verano', 'gris'],
+  ['camiseta-tecnica', 'gris'], ['corto-deporte', 'negro'], ['chandal', 'negro'], ['zapatillas-deporte', 'blanco'],
 ];
 
 /* ============ ICONOS ============ */
@@ -356,6 +418,10 @@ const IC = {
   flecha: '<path d="M9 6l6 6-6 6"/>',
   ubic: '<path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/><circle cx="12" cy="12" r="6"/>',
   movil: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
+  pesa: '<path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/>',
+  moto: '<circle cx="5.5" cy="16" r="3"/><circle cx="18.5" cy="16" r="3"/><path d="M5.5 16 10 10h4.5l4 6M10 10 8.5 7H6M14.5 10l1.5-3h3"/>',
+  gafas: '<path d="M2.5 9.5h19"/><path d="M3 9.5l.8 4.2A2.5 2.5 0 0 0 6.3 16h1.4a2.5 2.5 0 0 0 2.5-2.3l.3-4.2M21 9.5l-.8 4.2a2.5 2.5 0 0 1-2.5 2.3h-1.4a2.5 2.5 0 0 1-2.5-2.3l-.3-4.2"/>',
+  cuchilla: '<rect x="4.5" y="4" width="15" height="5" rx="1.5"/><path d="M12 9v11M9.5 13h5"/>',
 };
 const ico = (n, cls = '') => `<svg class="ico ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n] || IC.info}</svg>`;
 
@@ -385,6 +451,10 @@ const GLIFOS = {
   botas: { f: 'M6.2 3h6.4v9.6l5.6 2c1.9.7 3.3 2.2 3.3 4V21H6.2z', l: 'M6.2 19.6h15.3M6.2 5.2h6.4' },
   sandalias: { f: 'M3 17.5c0-1 .8-1.8 1.8-1.8h14.4c1 0 1.8.8 1.8 1.8V19H3z', l: 'M7 15.7c1-3 3-4.5 5-4.5s4 1.5 5 4.5' },
   corbata: { f: 'M10.3 2.5h3.4l-.8 3.2 1.8 11.3L12 21.5 9.3 17l1.8-11.3z', l: 'M10.6 5.7h2.8' },
+  gafas: { f: 'M2.5 9h8.5v3.5A3.5 3.5 0 0 1 7.5 16H6a3.5 3.5 0 0 1-3.5-3.5zM13 9h8.5v3.5A3.5 3.5 0 0 1 18 16h-1.5a3.5 3.5 0 0 1-3.5-3.5z', l: 'M11 10h2' },
+  calcetin: { f: 'M8 2.5h7v9l3.8 4.3a3.2 3.2 0 0 1-4.6 4.5L8 14.5z', l: 'M8 5h7' },
+  calcetinCorto: { f: 'M8 9h7v3l3.8 3.8a3.2 3.2 0 0 1-4.6 4.5L8 14.5z', l: 'M8 11h7' },
+  moto: { f: 'M9 3.2 12 5l3-1.8 4.4 2 1.9 12.3-3 .5-.9-6.8v7.3H6.6v-7.3l-.9 6.8-3-.5L4.6 5.2z', l: 'M12 5v13.5M5 7.6l3.6 1.6M19 7.6l-3.6 1.6M6.6 15h10.8' },
 };
 
 /* ============ UTILIDADES ============ */
@@ -417,8 +487,9 @@ async function fetchJSON(url, ms = 9000) {
   finally { clearTimeout(t); }
 }
 function formaColor(cid, g, n) { const c = COLOR_MAP[cid]; if (!c) return ''; return c.f.length === 1 ? c.f[0] : c.f[(g === 'f' ? 1 : 0) + (n === 'p' ? 2 : 0)]; }
-function nombreP(p) { if (p.nombre) return p.nombre; const t = tipoDe(p.tipo); return `${t.label.toLowerCase()} ${formaColor(p.color, t.g, t.n)}`.trim(); }
+function nombreP(p) { if (p.nombre) return p.nombre; const t = tipoDe(p.tipo); return `${t.nom || t.label.toLowerCase()} ${formaColor(p.color, t.g, t.n)}`.trim(); }
 function nombreT(p) { return p.nombre ? p.nombre : cap(nombreP(p)); }
+function nombreCorto(p) { if (p.nombre) return p.nombre; const t = tipoDe(p.tipo); return `${t.label} ${formaColor(p.color, t.g, t.n)}`.trim(); }
 function estiloSw(cid) { const c = COLOR_MAP[cid]; return c && c.hex ? `background:${c.hex}` : 'background:conic-gradient(#c23a2e,#c99a1e,#2e7048,#2f5fad,#5d3b7e,#c23a2e)'; }
 
 /* ============ ESTADO ============ */
@@ -499,13 +570,19 @@ function normalizarPrenda(p) {
 }
 function normalizarPlan(pl) {
   const min = clampInt(pl.min || 1, 1, 5), max = clampInt(pl.max || 5, min, 5);
+  const def = PLANES_DEFAULT.find(d => d.id === pl.id);
   return {
     id: pl.id || uid(), grupo: String(pl.grupo || 'Otros').slice(0, 24), nombre: String(pl.nombre || 'Plan').slice(0, 30),
     icono: ICONOS_PLAN.includes(pl.icono) ? pl.icono : 'estrella', min, max, traje: !!pl.traje, sinMedia: !!pl.sinMedia,
+    color: PLAN_COLORES[pl.color] ? pl.color : (def ? def.color : (COLOR_GRUPO[pl.grupo] || 'morado')),
+    deporte: pl.deporte != null ? !!pl.deporte : !!(def && def.deporte),
+    arreglo: pl.arreglo != null ? !!pl.arreglo : !!(def && def.arreglo),
+    nota: String(pl.nota || '').slice(0, 80),
     excluir: (pl.excluir || []).filter(x => TIPO_MAP[x]), preferir: (pl.preferir || []).filter(x => TIPO_MAP[x]),
     franja: FRANJAS[pl.franja] ? pl.franja : null,
   };
 }
+const colorPlan = pl => PLAN_COLORES[pl && pl.color] || PLAN_COLORES.azul;
 
 async function cargar() {
   try { await DB.abrir(); } catch (e) { S.persistente = false; }
@@ -520,6 +597,10 @@ async function cargar() {
     if (m.reglas) S.reglas = { ...REGLAS_DEFAULT, ...m.reglas };
     if (m.meta) S.meta = m.meta;
     if (m.clima) S.climaCache = m.clima;
+    if ((S.meta.planesV || 1) < 2) {
+      for (const d of PLANES_DEFAULT) if (!S.planes.some(x => x.id === d.id)) S.planes.push(normalizarPlan(d));
+      S.meta.planesV = 2; guardarKV('planes', S.planes); guardarKV('meta', S.meta);
+    }
   } catch (e) { S.persistente = false; }
 }
 async function guardarPrenda(p) {
@@ -663,10 +744,10 @@ function resumenClima(datos, fecha, franja) {
   const val = arr => arr ? idx.map(i => arr[i]).filter(v => v != null && !Number.isNaN(v)) : [];
   const at = val(h.apparent_temperature), tt = val(h.temperature_2m);
   const base = at.length ? at : tt; if (!base.length) return null;
-  const pp = val(h.precipitation_probability), mm = val(h.precipitation), codes = val(h.weather_code);
+  const pp = val(h.precipitation_probability), mm = val(h.precipitation), codes = val(h.weather_code), uvs = val(h.uv_index);
   let code = null, sev = -2; for (const c of codes) { const s = severidad(c); if (s > sev) { sev = s; code = c; } }
   const lluvia = pp.length ? Math.max(...pp) : (mm.some(v => v >= 0.3) ? 70 : 0);
-  return { tMin: Math.round(Math.min(...base)), tMax: Math.round(Math.max(...base)), lluvia: Math.round(lluvia), code };
+  return { tMin: Math.round(Math.min(...base)), tMax: Math.round(Math.max(...base)), lluvia: Math.round(lluvia), code, uv: uvs.length ? Math.round(Math.max(...uvs)) : null };
 }
 async function obtenerUbicacion(forzar) {
   const u = S.perfil.ubicacion;
@@ -696,7 +777,7 @@ async function cargarClima(forzar = false) {
     } else {
       S.clima = { ...S.clima, estado: 'cargando', ubic }; if (S.ui.tab === 'hoy') render();
       try {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${ubic.lat}&longitude=${ubic.lon}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code&timezone=auto&forecast_days=3`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${ubic.lat}&longitude=${ubic.lon}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,uv_index&timezone=auto&forecast_days=3`;
         const datos = await fetchJSON(url);
         S.climaCache = { clave, ts: Date.now(), datos };
         guardarKV('clima', S.climaCache);
@@ -717,7 +798,7 @@ async function buscarCiudad(q) {
 /* ============ MOTOR DE SUGERENCIAS ============ */
 /* Abrigo necesario (suma de capas de arriba) según la sensación térmica */
 function W(t) {
-  const pts = [[30, 1], [23, 1.2], [20, 2], [17, 3], [14, 4.5], [11, 5.5], [8, 7], [4, 8.5], [0, 9.5], [-5, 10.5]];
+  const pts = [[30, 1], [23, 1.2], [20, 1.7], [17, 3], [14, 4.5], [11, 5.5], [8, 7], [4, 8.5], [0, 9.5], [-5, 10.5]];
   if (t >= pts[0][0]) return pts[0][1];
   for (let i = 1; i < pts.length; i++) { const [t1, w1] = pts[i - 1], [t2, w2] = pts[i]; if (t >= t2) return w2 + (w1 - w2) * (t - t2) / (t1 - t2); }
   return pts[pts.length - 1][1];
@@ -738,27 +819,41 @@ function usosPorFecha() {
 function diasDesdeUso(p, fecha) { if (!p.ultimoUso) return 30; const d = diffDias(p.ultimoUso, fecha); return d < 0 ? 0 : d; }
 function contexto() {
   const plan = planActual(), clima = climaActual(), aj = ajusteTermico(), fecha = fechaObjetivo();
+  const franja = S.ui.franja || 'dia';
   const tMinA = clima.tMin + aj, tMaxA = clima.tMax + aj;
+  const sol = !clima.supuesto && franja !== 'noche' && clima.lluvia < 50 && (clima.uv != null ? clima.uv >= 3 : clima.code != null ? clima.code <= 2 : clima.lluvia <= 20);
+  const moto = S.meta.moto === true && S.prendas.some(p => p.capa === 'moto' && p.estado !== 'guardada');
   return {
-    plan, clima, fecha, franja: S.ui.franja || 'dia', aj, tMinA, tMaxA, spread: tMaxA - tMinA,
-    wFull: W(tMinA), wLight: W(tMaxA), usos: usosPorFecha(), avisos: [],
-    hayImp: S.prendas.some(p => p.capa === 'abrigo' && p.imp && p.estado !== 'guardada'),
+    plan, clima, fecha, franja, aj, tMinA, tMaxA, spread: tMaxA - tMinA, sol, moto,
+    wFull: W(tMinA), wLight: W(tMaxA), wRide: W(tMinA - 6), wDestMin: W(tMaxA + 3), wDestMax: W(tMinA + 3),
+    usos: usosPorFecha(), avisos: [],
+    hayImp: S.prendas.some(p => p.capa === (moto ? 'moto' : 'abrigo') && p.imp && p.estado !== 'guardada'),
     hayAnte: S.prendas.some(p => p.capa === 'calzado' && TEJIDO_NO_LLUVIA.includes(p.tejido) && p.estado === 'limpia'),
     semilla: new Map(),
   };
 }
+const SIN_FORMALIDAD = ['corbata', 'gafas', 'calcetines', 'moto'];
+const esDep = p => { const t = tipoDe(p.tipo); return !!(t && t.dep); };
 /* relax 0: todo. 1: permite repetir calzado/prenda reciente. 2: permite sucias y calzado de ante con lluvia. 3: ignora el estilo del plan */
 function pasaFiltro(p, ctx, relax, extra) {
   if (p.estado === 'guardada') return false;
   if (p.estado === 'sucia' && relax < 2) return false;
-  const t = tipoDe(p.tipo);
-  if (t && t.calor && ctx.tMaxA < 23) return false;
+  const t = tipoDe(p.tipo); const dep = !!(t && t.dep);
+  if (t && t.minT != null && ctx.tMaxA < t.minT) return false;
   if (extra && extra.tipos && !extra.tipos.includes(p.tipo)) return false;
+  if (ctx.moto && (p.tipo === 'sandalias' || p.tipo === 'corto')) return false;
   if (relax < 3) {
     const pl = ctx.plan;
     if (pl.excluir.includes(p.tipo)) return false;
-    if (p.capa === 'abrigo') { if (p.form < pl.min - 2) return false; }
-    else if (p.capa !== 'corbata') { if (p.form < pl.min || p.form > pl.max + 1) return false; }
+    if (pl.deporte) {
+      if (['base', 'pantalon', 'calzado', 'calcetines'].includes(p.capa) && !dep) return false;
+      if (['americana', 'traje', 'corbata'].includes(p.capa)) return false;
+      if ((p.capa === 'media' || p.capa === 'abrigo') && !dep && p.form > 2) return false;
+    } else {
+      if (dep) return false;
+      if (p.capa === 'abrigo') { if (p.form < pl.min - 2) return false; }
+      else if (!SIN_FORMALIDAD.includes(p.capa)) { if (p.form < pl.min || p.form > pl.max + 1) return false; }
+    }
   }
   if (p.capa === 'calzado') {
     if (relax < 1 && S.reglas.noRepetirCalzado) { const ayer = ctx.usos.get(addDias(ctx.fecha, -1)); if (ayer && ayer.has(p.id)) return false; }
@@ -780,11 +875,11 @@ function puntuarPieza(p, ctx) {
   let s = 0; const pl = ctx.plan, pf = S.perfil;
   if (p.fav) s += 0.7;
   s += Math.min(diasDesdeUso(p, ctx.fecha), 14) / 14;
-  if (p.capa !== 'abrigo' && p.capa !== 'corbata') {
+  if (!pl.deporte && p.capa !== 'abrigo' && !SIN_FORMALIDAD.includes(p.capa)) {
     s -= 0.25 * Math.abs(p.form - (pl.min + pl.max) / 2);
     if (p.form > pl.max) s -= 1.5 * (p.form - pl.max);
     if (p.form < pl.min) s -= 2 * (pl.min - p.form);
-  } else if (p.capa === 'abrigo' && p.form < pl.min - 1) s -= 0.6 * (pl.min - 1 - p.form);
+  } else if (!pl.deporte && p.capa === 'abrigo' && p.form < pl.min - 1) s -= 0.6 * (pl.min - 1 - p.form);
   if (pl.preferir.includes(p.tipo)) s += 0.6;
   if (pf.prefiero.includes(p.color)) s += 0.5;
   if (pf.evito.includes(p.color)) s -= 2;
@@ -795,35 +890,59 @@ function puntuarPieza(p, ctx) {
     if (ctx.tMinA < 10 && p.abrigo >= 3) s += 0.5;
     if (ctx.tMaxA > 24 && p.abrigo >= 3) s -= 1;
   }
+  if (p.capa === 'pantalon') { if (ctx.tMaxA >= 19 && p.abrigo <= 1) s += 0.8; if (ctx.tMinA < 12 && p.abrigo <= 1) s -= 1; }
   if (p.capa === 'calzado' && ctx.clima.lluvia >= 40) { if (p.imp) s += 1.5; else if (p.tejido === 'piel') s += 0.3; }
   if (p.capa === 'abrigo' && ctx.clima.lluvia >= 40 && p.imp) s += 1;
+  if (p.capa === 'moto' && ctx.clima.lluvia >= 40 && p.imp) s += 1.5;
+  if (ctx.moto) { if (p.tipo === 'botas') s += 1; if (p.tipo === 'mocasines' || p.tipo === 'nauticos') s -= 1; if (p.tipo === 'vaquero') s += 0.4; }
   if (p.capa === 'corbata') s += 1.2;
   if (p.capa === 'traje') s += (p.form - 4) * 0.5;
   return s;
 }
+/* Calcetines: según el calzado, el pantalón y la temperatura */
+function puntuarCalcetin(s, sel, ctx) {
+  const c = sel.calzado, pa = sel.pantalon || sel.traje, t = s.tipo; let v = 0;
+  if (!c) return 0;
+  const formal = c.tipo === 'zapatos' || (c.tipo === 'mocasines' && ctx.plan.min >= 3);
+  const deportivo = c.tipo === 'zapatillas-deporte';
+  const casual = ['zapatillas', 'nauticos', 'botas'].includes(c.tipo);
+  if (t === 'calcetines-vestir') { if (formal) v += 1.2; if (deportivo) v -= 2; else if (casual) v -= 0.6; if (pa && pa.color === s.color) v += 1; else if (['marino', 'negro', 'gris', 'antracita', 'marron'].includes(s.color)) v += 0.3; }
+  if (t === 'calcetines-deporte') { if (deportivo) v += 1.5; else if (c.tipo === 'zapatillas') v += 0.3; else v -= 2; }
+  if (t === 'calcetines-invisibles') { if (['mocasines', 'nauticos', 'zapatillas', 'zapatillas-deporte'].includes(c.tipo) && ctx.tMaxA >= 20) v += 1.3; if (c.tipo === 'botas') v -= 2; if (ctx.tMinA < 12) v -= 1; if (c.tipo === 'zapatos') v -= 1.5; if (ctx.moto) v -= 0.5; }
+  if (t === 'calcetines-lana') { if (ctx.tMinA < 8) v += 1; if (ctx.tMaxA > 18) v -= 1.5; if (c.tipo === 'botas') v += 0.5; if (formal) v -= 0.4; }
+  if (t === 'calcetines-casual') { if (casual) v += 0.4; if (formal) v -= 0.3; }
+  return v;
+}
 function compatible(sel) {
-  if (sel.americana && sel.media && sel.media.tipo === 'sudadera') return false;
+  if (sel.americana && sel.media && (sel.media.tipo === 'sudadera' || sel.media.tipo === 'sudadera-deporte')) return false;
   if (sel.americana && sel.pantalon && sel.pantalon.tipo === 'corto') return false;
   return true;
 }
 function semilla(ctx, p) { let v = ctx.semilla.get(p.id); if (v == null) { v = hash01(ctx.fecha + p.id); ctx.semilla.set(p.id, v); } return v; }
 function puntuarCombo(sel, ctx, acc) {
-  let s = acc, w = 0;
-  for (const c of ['base', 'media', 'americana', 'traje', 'abrigo']) if (sel[c]) w += sel[c].abrigo;
-  s -= 3 * Math.max(0, ctx.wFull - w) + 2 * Math.max(0, w - ctx.wFull - 0.5);
-  if (ctx.spread >= 5) {
-    const quitar = sel.abrigo ? sel.abrigo.abrigo : sel.media ? sel.media.abrigo : sel.americana ? sel.americana.abrigo : 0;
-    s -= 1.5 * Math.max(0, (w - quitar) - ctx.wLight - 0.5);
-    if (ctx.spread >= 8 && !quitar) s -= 3;
+  let s = acc, wIn = 0;
+  for (const c of ['base', 'media', 'americana', 'traje']) if (sel[c]) wIn += sel[c].abrigo;
+  if (ctx.moto) {
+    const wRide = wIn + (sel.moto ? sel.moto.abrigo : 0);
+    s -= 3 * Math.max(0, ctx.wRide - wRide) + 1.5 * Math.max(0, wRide - ctx.wRide - 1);
+    s -= 2 * Math.max(0, ctx.wDestMin - 0.5 - wIn) + 1.5 * Math.max(0, wIn - ctx.wDestMax - 1);
+  } else {
+    const w = wIn + (sel.abrigo ? sel.abrigo.abrigo : 0);
+    s -= 3 * Math.max(0, ctx.wFull - w) + 2 * Math.max(0, w - ctx.wFull - 0.5);
+    if (ctx.spread >= 5) {
+      const quitar = sel.abrigo ? sel.abrigo.abrigo : sel.media ? sel.media.abrigo : sel.americana ? sel.americana.abrigo : 0;
+      s -= 1.5 * Math.max(0, (w - quitar) - ctx.wLight - 0.5);
+      if (ctx.spread >= 8 && !quitar) s -= 3;
+    }
   }
   let inten = 0; const cnt = {};
-  for (const c of ['base', 'media', 'americana', 'traje', 'abrigo', 'pantalon', 'calzado']) if (sel[c]) inten += pesoColor(sel[c].color);
+  for (const c of ['base', 'media', 'americana', 'traje', 'abrigo', 'moto', 'pantalon', 'calzado']) if (sel[c]) inten += pesoColor(sel[c].color);
   if (inten > 1.2) s -= 3 * (inten - 1.2);
   for (const c of ['base', 'media', 'americana', 'pantalon']) if (sel[c]) cnt[sel[c].color] = (cnt[sel[c].color] || 0) + 1;
   for (const k in cnt) if (cnt[k] >= 3) s -= 0.8;
   if (sel.base && sel.pantalon && sel.base.color === sel.pantalon.color) s -= pesoColor(sel.base.color) > 0 ? 1.6 : 0.6;
   if (sel.media && sel.base && sel.media.color === sel.base.color && sel.base.color !== 'blanco') s -= 0.4;
-  if (ctx.clima.lluvia >= 60 && ctx.hayImp && !(sel.abrigo && sel.abrigo.imp)) s -= 0.8;
+  if (ctx.clima.lluvia >= 60 && ctx.hayImp && !((sel.abrigo && sel.abrigo.imp) || (sel.moto && sel.moto.imp))) s -= 0.8;
   if (ctx.tMaxA > 24 && sel.media) s -= 1;
   if (sel.traje && sel.base && sel.base.tipo === 'camisa-vestir') s += 0.5;
   let h = 0; for (const c in sel) if (sel[c]) h += semilla(ctx, sel[c]);
@@ -840,21 +959,21 @@ function elegirDiversas(kept, n, libres) {
 function generarSugerencias() {
   const ctx = contexto(); const pl = ctx.plan; const locks = S.ui.locks;
   if (!S.prendas.length) return { ctx, lista: [], vacio: true };
+  const fijada = capa => Object.prototype.hasOwnProperty.call(locks, capa) ? S.prendas.find(p => p.id === locks[capa]) || null : null;
   let usarTraje = pl.traje, trajes = null;
   if (usarTraje) {
     trajes = candidatos('traje', ctx);
     if (!trajes.lista.length || trajes.relax >= 3) { usarTraje = false; ctx.avisos.push('No tienes traje disponible: te propongo americana y pantalón de vestir.'); }
   }
+  const exterior = ctx.moto ? ['moto', true] : ['abrigo', false];
   const slots = usarTraje
-    ? [['base', true], ['traje', true], ['abrigo', false], ['calzado', true], ['corbata', false]]
-    : [['base', true], ['media', false], ['americana', !!pl.traje], ['abrigo', false], ['pantalon', true], ['calzado', true]];
+    ? [['base', true], ['traje', true], exterior, ['calzado', true], ['corbata', false]]
+    : [['base', true], ['media', false], ['americana', !!pl.traje], exterior, ['pantalon', true], ['calzado', true]];
   const opciones = [];
   for (const [capa, req] of slots) {
     if (capa === 'media' && pl.sinMedia) { opciones.push({ capa, items: [null], fijo: true }); continue; }
-    if (Object.prototype.hasOwnProperty.call(locks, capa)) {
-      const lp = S.prendas.find(p => p.id === locks[capa]);
-      if (lp) { opciones.push({ capa, items: [lp], fijo: true }); continue; }
-    }
+    const lp = fijada(capa);
+    if (lp) { opciones.push({ capa, items: [lp], fijo: true }); continue; }
     const extra = (capa === 'pantalon' && pl.traje && !usarTraje) ? { tipos: ['pantalon-vestir', 'chino'] } : null;
     let res;
     if (capa === 'traje') res = trajes;
@@ -888,6 +1007,23 @@ function generarSugerencias() {
   };
   rec(0, 0);
   kept.sort((a, b) => b.sc - a.sc);
+  if (kept.length > 300) kept.length = 300;
+  /* Accesorios: calcetines según calzado y pantalón; gafas si hay sol */
+  let calc = null;
+  const calcFija = fijada('calcetines');
+  if (calcFija) calc = [{ p: calcFija, s: 0 }];
+  else if (S.prendas.some(p => p.capa === 'calcetines' && p.estado !== 'guardada')) { const r = candidatos('calcetines', ctx); calc = r.lista.map(p => ({ p, s: puntuarPieza(p, ctx) })); }
+  let gafas = null;
+  if (ctx.sol) { gafas = fijada('gafas'); if (!gafas) { const g = S.prendas.filter(p => p.capa === 'gafas' && pasaFiltro(p, ctx, 0)).map(p => ({ p, s: puntuarPieza(p, ctx) })).sort((a, b) => b.s - a.s); if (g.length) gafas = g[0].p; } }
+  for (const k of kept) {
+    if (calc && calc.length && k.sel.calzado && k.sel.calzado.tipo !== 'sandalias') {
+      let best = null, bs = -Infinity;
+      for (const r of calc) { const v = r.s + puntuarCalcetin(r.p, k.sel, ctx); if (v > bs) { bs = v; best = r.p; } }
+      if (best) { k.sel.calcetines = best; k.sc += bs * 0.5; }
+    }
+    if (gafas) k.sel.gafas = gafas;
+  }
+  kept.sort((a, b) => b.sc - a.sc);
   const libres = opciones.filter(o => !o.fijo).map(o => o.capa);
   return { ctx, lista: elegirDiversas(kept, 8, libres) };
 }
@@ -898,7 +1034,8 @@ function avisosPiezas(sel, ctx) {
     if (p.estado === 'sucia') out.push(`${nombreT(p)}: toca lavarla, pero es lo único que encaja.`);
     else if (p.capa === 'calzado' && ctx.clima.lluvia >= 40 && TEJIDO_NO_LLUVIA.includes(p.tejido)) out.push(`${nombreT(p)} no aguantan bien la lluvia y no tienes otro calzado que encaje.`);
     else if (p.capa === 'calzado' && S.reglas.noRepetirCalzado) { const ayer = ctx.usos.get(addDias(ctx.fecha, -1)); if (ayer && ayer.has(p.id)) out.push(`Repites ${nombreP(p)} de ayer: no hay otro calzado que encaje.`); }
-    if (p.capa !== 'abrigo' && p.capa !== 'corbata' && (p.form < ctx.plan.min || ctx.plan.excluir.includes(p.tipo))) out.push(`${nombreT(p)} se sale del estilo del plan, pero no hay otra opción.`);
+    if (ctx.plan.deporte) { if (['base', 'pantalon', 'calzado'].includes(p.capa) && !esDep(p)) out.push(`${nombreT(p)} no es ropa de deporte, pero no tienes otra.`); }
+    else if (p.capa !== 'abrigo' && !SIN_FORMALIDAD.includes(p.capa) && (p.form < ctx.plan.min || ctx.plan.excluir.includes(p.tipo))) out.push(`${nombreT(p)} se sale del estilo del plan, pero no hay otra opción.`);
   }
   return out;
 }
@@ -908,15 +1045,20 @@ function justificar(k, ctx) {
   const temp = cl.tMin === cl.tMax ? `a ${cl.tMin} °C` : `entre ${cl.tMin} y ${cl.tMax} °C`;
   const intro = cl.supuesto ? `Sin previsión del tiempo, supongo ${temp.replace(/^a /, '')}` : cap(`${pre}${FRANJAS[ctx.franja].frase} ${temp}${cl.lluvia >= 30 ? ` y ${cl.lluvia} % de lluvia` : ''}`);
   if (cl.lluvia >= 40 && sel.calzado && (sel.calzado.imp || sel.calzado.tejido === 'piel')) razones.push(`${nombreP(sel.calzado)} para la lluvia${ctx.hayAnte ? ', nada de ante' : ''}`);
+  if (ctx.moto && sel.moto) razones.push(`${nombreP(sel.moto)}, que en marcha notarás unos ${Math.round(cl.tMin - 6)} °C`);
+  if (ctx.plan.deporte) { const capa = sel.abrigo || sel.media; razones.push(capa ? `listo para entrenar, con ${nombreP(capa)} para ir` : 'listo para entrenar'); }
   if (sel.traje) razones.push(`${nombreP(sel.traje)} para ${ctx.plan.nombre}`);
-  const quitar = sel.abrigo || sel.media;
-  if (ctx.spread >= 5 && quitar) razones.push(`${nombreP(quitar)} para cuando refresque`);
-  else if (sel.abrigo && ctx.tMinA < 8) razones.push(`${nombreP(sel.abrigo)} para el frío`);
-  if (!sel.abrigo && !sel.media && !sel.americana && !sel.traje) { if (ctx.tMinA >= 25) razones.push('sin capas, que hace calor'); else if (ctx.tMinA >= 19) razones.push('sin capas, no hace falta más'); }
-  if (ctx.plan.min >= 3 && !sel.traje && sel.pantalon && sel.calzado) razones.push(`${nombreP(sel.pantalon)} y ${nombreP(sel.calzado)} para ir arreglado`);
+  const quitar = ctx.moto ? sel.media : (sel.abrigo || sel.media);
+  if (!ctx.plan.deporte) {
+    if (ctx.spread >= 5 && quitar) razones.push(`${nombreP(quitar)} para cuando refresque`);
+    else if (sel.abrigo && ctx.tMinA < 8) razones.push(`${nombreP(sel.abrigo)} para el frío`);
+    if (!sel.abrigo && !sel.moto && !sel.media && !sel.americana && !sel.traje) { if (ctx.tMinA >= 25) razones.push('sin capas, que hace calor'); else if (ctx.tMinA >= 19) razones.push('sin capas, no hace falta más'); }
+    if (ctx.plan.min >= 3 && !sel.traje && sel.pantalon && sel.calzado) razones.push(`${nombreP(sel.pantalon)} y ${nombreP(sel.calzado)} para ir arreglado`);
+  }
   let rot = null;
   for (const c of ['pantalon', 'media', 'base']) { const p = sel[c]; if (p && p.ultimoUso) { const d = diasDesdeUso(p, ctx.fecha); if (d >= 10 && (!rot || d > rot.d)) rot = { p, d }; } }
   if (rot) razones.push(`${nombreP(rot.p)} lleva ${rot.d} días sin salir`);
+  if (sel.gafas) razones.push(`${nombreP(sel.gafas)}, que hay sol`);
   if (!razones.length && sel.base && sel.pantalon) razones.push(`${nombreP(sel.base)} con ${nombreP(sel.pantalon)}`);
   let txt = intro + (razones[0] ? `: ${razones[0]}.` : '.');
   if (razones[1]) txt += ` ${cap(razones[1])}.`;
@@ -988,7 +1130,20 @@ function htmlClima(cl) {
     s = cl.manual ? `Lluvia ${cl.lluvia} % · ${fr}` : `${lluvioso ? `${w[1]} ${cl.lluvia} %` : `${w[1]} · lluvia ${cl.lluvia} %`} · ${esc(ub)}`;
     if (!cl.manual && S.clima.estado === 'viejo' && S.clima.ts) s += ` · datos de las ${new Date(S.clima.ts).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
   }
-  return `<button class="wx" data-act="clima" aria-label="Ajustar el tiempo"><span class="e">${e}</span><div><div class="t">${t}</div><div class="s">${s}</div></div><span class="go">${ico('flecha', 's')}</span></button>`;
+  const col = colorTiempo(cl);
+  const st = col ? ` style="background:${col[0]};border-color:transparent"` : '';
+  const c1 = col ? ` style="color:${col[1]}"` : '', c2 = col ? ` style="color:${col[2]}"` : '';
+  return `<button class="wx" data-act="clima" aria-label="Ajustar el tiempo"${st}><span class="e">${e}</span><div><div class="t"${c1}>${t}</div><div class="s"${c2}>${s}</div></div><span class="go"${c2}>${ico('flecha', 's')}</span></button>`;
+}
+function colorTiempo(cl) {
+  if (cl.supuesto) return null;
+  const t = (cl.tMin + cl.tMax) / 2;
+  if (t < 6) return ['#0C447C', '#E6F1FB', '#B5D4F4'];
+  if (t < 12) return ['#185FA5', '#E6F1FB', '#B5D4F4'];
+  if (t < 18) return ['#0F6E56', '#E1F5EE', '#9FE1CB'];
+  if (t < 24) return ['#3B6D11', '#EAF3DE', '#C0DD97'];
+  if (t < 29) return ['#854F0B', '#FAEEDA', '#FAC775'];
+  return ['#993C1D', '#FAECE7', '#F5C4B3'];
 }
 function banners() {
   let h = '';
@@ -1009,35 +1164,68 @@ function htmlFeedback() {
   const pl = S.planes.find(p => p.id === h.planId);
   return `<div class="fb"><div class="q"><div>¿Qué tal ayer de temperatura?<small>${esc(pl ? `${pl.grupo} · ${pl.nombre}` : 'Tu outfit')} · ${FRANJAS[h.franja] ? FRANJAS[h.franja].label : ''}</small></div><button class="x" data-act="fb-x" data-id="${h.id}" aria-label="Cerrar" style="color:var(--tx3)">${ico('x', 's')}</button></div><div class="ops"><button data-act="fb" data-id="${h.id}" data-v="frio">🥶 Frío</button><button data-act="fb" data-id="${h.id}" data-v="bien">👌 Bien</button><button data-act="fb" data-id="${h.id}" data-v="calor">🥵 Calor</button></div></div>`;
 }
-function htmlPieza(p, conCandado = true) {
+function tileLook(p, cls, interactivo) {
   const on = S.ui.locks[p.capa] === p.id;
-  const dentro = `<div class="ph">${mediaP(p)}</div>${conCandado ? `<span class="lock">${ico(on ? 'candado' : 'abierto')}</span>` : ''}<div class="nm"><div class="n1">${esc(nombreT(p))}</div><div class="n2">${CAPAS[p.capa].label}${p.estado === 'sucia' ? ' · para lavar' : ''}</div></div>`;
-  return conCandado
-    ? `<button class="pz ${on ? 'on' : ''}" data-act="lock" data-capa="${p.capa}" data-id="${esc(p.id)}" aria-pressed="${on}" aria-label="${esc(nombreT(p))}: ${on ? 'fijada, toca para soltarla' : 'toca para fijarla'}">${dentro}</button>`
-    : `<div class="pz">${dentro}</div>`;
+  const c = COLOR_MAP[p.color]; const hex = c && c.hex ? (luminancia(c.hex) < 0.08 ? '#8a8a94' : c.hex) : '#7a7a7a';
+  const dentro = `<div class="ph">${mediaP(p)}</div>${interactivo ? `<span class="lock">${ico(on ? 'candado' : 'abierto')}</span>` : ''}<span class="cap"><span>${esc(nombreCorto(p))}${p.estado === 'sucia' ? ' · para lavar' : ''}</span></span>`;
+  return interactivo
+    ? `<button class="lt ${cls} ${on ? 'on' : ''}" style="--c:${hex}" data-act="lock" data-capa="${p.capa}" data-id="${esc(p.id)}" aria-pressed="${on}" aria-label="${esc(nombreT(p))}: ${on ? 'fijada, toca para soltarla' : 'toca para fijarla'}">${dentro}</button>`
+    : `<div class="lt ${cls}" style="--c:${hex}">${dentro}</div>`;
+}
+/* El conjunto de arriba abajo: accesorios, capas de fuera hacia dentro, pantalón, calcetines y calzado */
+function htmlLook(sel, interactivo = true) {
+  const g = c => sel[c] || null;
+  const acc = ['gafas', 'corbata'].map(g).filter(Boolean);
+  const arriba = ['abrigo', 'moto', 'americana', 'traje', 'media', 'base'].map(g).filter(Boolean);
+  const pant = g('pantalon'); const pies = ['calcetines', 'calzado'].map(g).filter(Boolean);
+  let h = '<div class="look">';
+  if (acc.length) h += `<div class="look-acc">${acc.map(p => tileLook(p, 's', interactivo)).join('')}</div>`;
+  if (arriba.length) h += `<div class="look-top n${arriba.length}" style="--n:${arriba.length}">${arriba.map(p => tileLook(p, 'm', interactivo)).join('')}</div>`;
+  if (pant) h += `<div class="look-bot"><div>${tileLook(pant, 'l', interactivo)}</div><div class="look-pies">${pies.map(p => tileLook(p, 'm', interactivo)).join('')}</div></div>`;
+  else if (pies.length) h += `<div class="look-top n${pies.length}" style="--n:${pies.length}">${pies.map(p => tileLook(p, 'm', interactivo)).join('')}</div>`;
+  return h + '</div>';
+}
+function htmlBarba() {
+  const pl = planActual(); const u = S.meta.ultimoAfeitado;
+  const cuando = S.ui.dia === 'hoy' ? 'hoy' : 'mañana';
+  const nombrePlan = pl.grupo === 'Trabajo' ? pl.nombre : `${pl.grupo} (${pl.nombre.toLowerCase()})`;
+  if (!u) {
+    if (!pl.arreglo) return '';
+    return `<div class="barba">${ico('cuchilla', 's')}<div><b>¿Cuándo te repasaste la barba?</b> Así te aviso antes de los días importantes.<div class="grupo-acc">${[['0', 'Hoy'], ['1', 'Ayer'], ['4', 'Hace días']].map(([v, l]) => `<button class="btn" data-act="barba-dia" data-v="${v}">${l}</button>`).join('')}</div></div></div>`;
+  }
+  const d = diffDias(u, fechaObjetivo()); const cada = S.perfil.repasoCada || 4;
+  if (d < 0 || !((pl.arreglo && d >= cada) || d >= 7)) return '';
+  const txt = pl.arreglo
+    ? `<b>Toca repaso de barba.</b> Llevas ${d} días y ${cuando} es ${esc(nombrePlan)}.${S.ui.dia === 'manana' ? ' Mejor esta noche o mañana temprano.' : ''}`
+    : `<b>Llevas ${d} días sin repasar la barba.</b>`;
+  return `<div class="barba">${ico('cuchilla', 's')}<div>${txt}<div class="grupo-acc"><button class="btn" data-act="barba-hecho">Me he afeitado</button></div></div></div>`;
 }
 function htmlOutfit() {
   if (!S.prendas.length) return `<div class="vacio card" style="margin-top:22px">${ico('percha')}<div class="t1">Tu armario está vacío</div><div>Añade tus prendas o prueba con un armario de ejemplo.</div><div class="grupo-acc" style="justify-content:center;margin-top:16px"><button class="btn pri" data-act="add">${ico('mas', 's')} Añadir</button><button class="btn" data-act="p-ejemplo">Probar ejemplo</button></div></div>`;
   if (S.ui.puesto) {
     const pu = S.ui.puesto;
-    return `<div class="hecho">${ico('check', 's')} ${esc(pu.etiqueta)}</div><div class="outfit" style="margin-top:12px">${piezasDe(pu.sel).map(p => htmlPieza(p, false)).join('')}</div><div style="text-align:center;margin-top:10px"><button class="btn ghost" data-act="nuevo">Ver otra sugerencia</button></div>`;
+    return `<div class="hecho">${ico('check', 's')} ${esc(pu.etiqueta)}</div><div style="margin-top:12px">${htmlLook(pu.sel, false)}</div><div style="text-align:center;margin-top:10px"><button class="btn ghost" data-act="nuevo">Ver otra sugerencia</button></div>`;
   }
   asegurarSug();
   const r = S.ui.sug;
   if (!r.lista.length) return `<div class="aviso" style="margin-top:22px">${ico('alerta', 's')}<div>No encuentro una combinación con lo que tienes limpio para este plan. Prueba a hacer la colada o cambia de plan.</div></div>`;
   const k = r.lista[S.ui.idx];
   const avisos = [...r.ctx.avisos, ...avisosPiezas(k.sel, r.ctx)];
-  return `<p class="porque">${esc(justificar(k, r.ctx))}</p>${avisos.map(a => `<div class="aviso">${ico('alerta', 's')}<div>${esc(a)}</div></div>`).join('')}<div class="outfit">${piezasDe(k.sel).map(p => htmlPieza(p)).join('')}</div><div class="opc">${r.lista.length > 1 ? `Opción ${S.ui.idx + 1} de ${r.lista.length} · toca una prenda para fijarla` : 'Es la única combinación con lo que tienes limpio'}</div>`;
+  const nota = r.ctx.plan.nota ? `<div class="nota">${ico('estrella', 's')}<span>${esc(r.ctx.plan.nota)}</span></div>` : '';
+  return `<p class="porque">${esc(justificar(k, r.ctx))}</p>${nota}${avisos.map(a => `<div class="aviso">${ico('alerta', 's')}<div>${esc(a)}</div></div>`).join('')}${htmlLook(k.sel)}<div class="opc">${r.lista.length > 1 ? `Opción ${S.ui.idx + 1} de ${r.lista.length} · toca una prenda para fijarla` : 'Es la única combinación con lo que tienes limpio'}</div>`;
 }
 function renderHoy() {
   asegurarPlanFranja();
   const cl = climaActual(); const pl = planActual(); const gs = grupos();
   const delGrupo = S.planes.filter(p => p.grupo === pl.grupo);
   let h = `<div class="cab2"><div class="kick">${esc(fechaLarga(fechaObjetivo()))}</div>${seg([['hoy', 'Hoy'], ['manana', 'Para mañana']], S.ui.dia, 'dia', 'chica')}</div><h1 class="h1c">¿Qué me pongo?</h1>`;
-  h += banners() + htmlFeedback() + htmlClima(cl);
-  h += `<div class="lab c">Plan</div><div class="planes">${gs.map(g => { const p0 = S.planes.find(p => p.grupo === g); return `<button class="plan ${pl.grupo === g ? 'on' : ''}" data-act="grupo" data-v="${esc(g)}"><span class="pi">${ico(p0.icono, 's')}</span><span>${esc(g)}</span></button>`; }).join('')}</div>`;
+  h += banners() + htmlFeedback() + htmlBarba() + htmlClima(cl);
+  h += `<div class="lab c">Plan</div><div class="planes">${gs.map(g => { const p0 = S.planes.find(p => p.grupo === g); const pc = colorPlan(p0); return `<button class="plan ${pl.grupo === g ? 'on' : ''}" style="--pcf:${pc.fuerte};--pcl:${pc.claro}" data-act="grupo" data-v="${esc(g)}"><span class="pi">${ico(p0.icono, 's')}</span><span>${esc(g)}</span></button>`; }).join('')}</div>`;
   if (delGrupo.length > 1) h += `<div class="variantes">${seg(delGrupo.map(p => [p.id, esc(p.nombre)]), pl.id, 'plan', 'auto')}</div>`;
   h += `<div class="lab c">Franja</div>${seg(ORDEN_FRANJAS.map(f => [f, FRANJAS[f].label]), S.ui.franja, 'franja', 'auto')}`;
+  const nMoto = S.prendas.filter(p => p.capa === 'moto' && p.estado !== 'guardada').length;
+  const enMoto = S.meta.moto === true;
+  h += `<button class="fila moto-row ${enMoto && nMoto ? 'on' : ''}" data-act="moto" aria-pressed="${enMoto}"><span class="pi">${ico('moto', 's')}</span><div class="f1"><div>Voy en moto</div><div>${nMoto ? (enMoto ? 'Te elijo chaqueta de moto' : `${nMoto} ${nMoto === 1 ? 'chaqueta' : 'chaquetas'} de moto`) : 'Añade tus chaquetas de moto en Armario'}</div></div><span class="sw-t ${enMoto ? 'on' : ''}"></span></button>`;
   h += `<div id="outfit">${htmlOutfit()}</div>`;
   return h;
 }
@@ -1069,12 +1257,13 @@ function renderPerfil() {
   h += `<div class="card"><div class="lab" style="margin-top:0">Sensación térmica</div>${seg([['friolero', 'Friolero'], ['normal', 'Normal'], ['caluroso', 'Caluroso']], pf.sensacion, 'p-sens')}<div class="muted mt">Ajuste aprendido con tus respuestas: <b style="color:var(--tx)">${pf.aprendido > 0 ? '+' : ''}${num(pf.aprendido)} °C</b>${pf.aprendido ? ` <button class="btn ghost" style="min-height:32px" data-act="p-reset-ap">Reiniciar</button>` : ''}</div></div>`;
   const resCol = [pf.prefiero.length ? `prefiero ${pf.prefiero.length}` : '', pf.evito.length ? `evito ${pf.evito.length}` : '', pf.cortesEvito.length ? `${pf.cortesEvito.length} cortes fuera` : ''].filter(Boolean).join(' · ') || 'Sin preferencias';
   h += `<div class="card mt" style="padding-top:4px;padding-bottom:4px"><details class="mas" id="p-col" style="margin:0;border:0" ${S.ui.colAbierto ? 'open' : ''}><summary>Colores y cortes<span>${esc(resCol)}</span></summary><div class="sub2" style="margin-top:4px">Prefiero</div><div class="chips">${COLORES.map(c => chipColor(c.id, pf.prefiero.includes(c.id), 'p-pref')).join('')}</div><div class="sub2">Evito</div><div class="chips">${COLORES.map(c => chipColor(c.id, pf.evito.includes(c.id), 'p-evito')).join('')}</div><div class="sub2">Cortes que evito</div><div class="chips" style="margin-bottom:14px">${CORTES.map(c => `<button class="chip ${pf.cortesEvito.includes(c) ? 'on' : ''}" data-act="p-corte" data-v="${c}">${c}</button>`).join('')}</div></details></div>`;
-  h += `<div class="card mt"><div class="lab" style="margin-top:0">Planes</div>${S.planes.map(p => `<button class="fila" data-act="p-plan" data-id="${esc(p.id)}"><span class="pi">${ico(p.icono, 's')}</span><div class="f1"><div>${esc(p.grupo)} · ${esc(p.nombre)}</div><div>Formalidad ${p.min === p.max ? p.min : p.min + '-' + p.max}${p.traje ? ' · con traje' : ''}${p.franja ? ' · ' + FRANJAS[p.franja].label.toLowerCase() : ''}</div></div>${ico('flecha', 's')}</button>`).join('')}<button class="btn ghost mt" data-act="p-plan-nuevo">${ico('mas', 's')} Añadir plan</button></div>`;
+  h += `<div class="card mt"><div class="lab" style="margin-top:0">Planes</div>${S.planes.map(p => `<button class="fila" data-act="p-plan" data-id="${esc(p.id)}"><span class="pi" style="color:${colorPlan(p).claro}">${ico(p.icono, 's')}</span><div class="f1"><div>${esc(p.grupo)} · ${esc(p.nombre)}</div><div>Formalidad ${p.min === p.max ? p.min : p.min + '-' + p.max}${p.traje ? ' · con traje' : ''}${p.deporte ? ' · deporte' : ''}${p.franja ? ' · ' + FRANJAS[p.franja].label.toLowerCase() : ''}</div></div>${ico('flecha', 's')}</button>`).join('')}<button class="btn ghost mt" data-act="p-plan-nuevo">${ico('mas', 's')} Añadir plan</button></div>`;
   h += `<div class="card mt"><div class="lab" style="margin-top:0">Reglas</div>${interruptor('No repetir calzado dos días seguidos', r.noRepetirCalzado, 'r-calzado')}${paso('No repetir prenda en', r.diasSinRepetir ? `${r.diasSinRepetir} d` : 'Libre', 'r-dias', 'dias', 'Camisas, jerseys y pantalones')}</div>`;
+  h += `<div class="card mt"><div class="lab" style="margin-top:0">Barba</div><div class="muted">${S.meta.ultimoAfeitado ? `Último repaso: ${esc(fechaLarga(S.meta.ultimoAfeitado))}` : 'Aún no has apuntado ningún repaso.'}</div>${paso('Avisar a partir de', `${pf.repasoCada || 4} días`, 'p-repaso', 'repaso', 'En los planes que piden ir arreglado')}<button class="btn mt" style="width:100%" data-act="barba-hecho">${ico('cuchilla', 's')} Me he afeitado hoy</button></div>`;
   h += `<div class="card mt"><div class="lab" style="margin-top:0">Ubicación del tiempo</div><button class="fila" data-act="clima"><span class="pi">${ico('ubic', 's')}</span><div class="f1"><div>${esc(ubTxt)}</div><div>Toca para cambiarla</div></div>${ico('flecha', 's')}</button></div>`;
   h += `<div class="card mt"><div class="lab" style="margin-top:0">Copia de seguridad</div><div class="muted">${S.meta.ultimaCopia ? `Última copia: ${esc(fechaLarga(S.meta.ultimaCopia))}` : 'Aún no has guardado ninguna copia.'}</div><div class="grupo-acc"><button class="btn grow" data-act="p-export">${ico('bajar', 's')} Exportar</button><button class="btn grow" data-act="p-import">${ico('subir', 's')} Importar</button></div></div>`;
   const hayEj = S.prendas.some(p => p.ejemplo);
-  h += `<div class="card mt"><div class="lab" style="margin-top:0">Pruebas</div><div class="muted" style="margin-bottom:10px">20 prendas sin foto para ver cómo funciona el motor.</div>${hayEj ? `<button class="btn" style="width:100%" data-act="p-quitar-ejemplo">Quitar el armario de ejemplo</button>` : `<button class="btn" style="width:100%" data-act="p-ejemplo">Cargar armario de ejemplo</button>`}</div>`;
+  h += `<div class="card mt"><div class="lab" style="margin-top:0">Pruebas</div><div class="muted" style="margin-bottom:10px">${EJEMPLO.length} prendas sin foto para ver cómo funciona.</div>${hayEj ? `<button class="btn" style="width:100%" data-act="p-quitar-ejemplo">Quitar el armario de ejemplo</button>` : `<button class="btn" style="width:100%" data-act="p-ejemplo">Cargar armario de ejemplo</button>`}</div>`;
   h += `<div class="card mt"><button class="fila" data-act="p-instalar"><span class="pi">${ico('movil', 's')}</span><div class="f1"><div>Cómo instalarla en el iPhone</div></div>${ico('flecha', 's')}</button><button class="fila" data-act="p-borrar-todo" style="color:var(--bad)"><span class="pi" style="color:var(--bad)">${ico('papelera', 's')}</span><div class="f1"><div>Borrar todos los datos</div></div></button></div>`;
   h += `<div class="pie">Mi Armario Diario ${APP_VERSION} · <span id="espacio"></span><br>Tiempo: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0)</div>`;
   return h;
@@ -1089,6 +1278,7 @@ function render() {
   const hoyReal = isoDia();
   if (S.ui.hoyFecha !== hoyReal) { S.ui.hoyFecha = hoyReal; S.ui.dia = 'hoy'; S.ui.planId = null; S.ui.franja = null; S.ui.locks = {}; S.ui.puesto = null; S.manual = null; invalidar(); }
   const main = $('#main'); const st = main.scrollTop; const mismo = main.dataset.tab === S.ui.tab;
+  if (S.ui.tab === 'hoy') { asegurarPlanFranja(); const pc = colorPlan(planActual()); document.documentElement.style.setProperty('--pc', pc.fuerte); document.documentElement.style.setProperty('--pcl', pc.claro); }
   main.innerHTML = S.ui.tab === 'hoy' ? renderHoy() : S.ui.tab === 'armario' ? renderArmario() : renderPerfil();
   main.dataset.tab = S.ui.tab;
   main.scrollTop = mismo ? st : 0;
@@ -1101,7 +1291,7 @@ function renderBarra() {
   const b = $('#barra'); const r = S.ui.sug;
   const on = S.ui.tab === 'hoy' && !S.ui.puesto && S.prendas.length > 0 && r && r.lista.length > 0;
   b.classList.toggle('on', !!on); $('#main').classList.toggle('conbarra', !!on); document.body.classList.toggle('conbarra', !!on);
-  b.innerHTML = on ? `<button class="btn grow" data-act="otra" ${r.lista.length < 2 ? 'disabled' : ''}>${ico('otra', 's')} Otra</button><button class="btn pri grow" data-act="puesto">${ico('check', 's')} Me lo pongo</button>` : '';
+  b.innerHTML = on ? `<button class="btn grow" data-act="otra" ${r.lista.length < 2 ? 'disabled' : ''}>${ico('otra', 's')} Otra</button><button class="btn pc grow" data-act="puesto">${ico('check', 's')} Me lo pongo</button>` : '';
 }
 
 /* ============ HOJAS (paneles inferiores) ============ */
@@ -1238,7 +1428,7 @@ async function hacerBusquedaCiudad() {
 /* --- Editor de planes --- */
 function abrirPlan(id) {
   const p = id ? S.planes.find(x => x.id === id) : null;
-  S.pf = p ? clon(p) : { id: null, grupo: '', nombre: '', icono: 'estrella', min: 1, max: 3, traje: false, sinMedia: false, excluir: [], preferir: [], franja: null };
+  S.pf = p ? clon(p) : { id: null, grupo: '', nombre: '', icono: 'estrella', color: 'morado', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: null, nota: '' };
   abrirHoja('plan');
 }
 HOJAS.plan = () => {
@@ -1247,7 +1437,9 @@ HOJAS.plan = () => {
   if (gs.length) h += `<div class="chips mt">${gs.map(g => `<button class="chip ${f.grupo === g ? 'on' : ''}" data-act="pl-grupo" data-v="${esc(g)}">${esc(g)}</button>`).join('')}</div>`;
   h += `<div class="sub2">Nombre del plan</div><input class="inp" data-campo="pf.nombre" value="${esc(f.nombre)}" placeholder="Ej.: Comida / cena" maxlength="30" autocomplete="off">`;
   h += `<div class="sub2">Icono</div><div class="chips">${ICONOS_PLAN.map(i => `<button class="chip ${f.icono === i ? 'on' : ''}" data-act="pl-icono" data-v="${i}" aria-label="${i}">${ico(i, 's')}</button>`).join('')}</div>`;
-  h += `<div class="mt">${paso('Formalidad mínima', `${f.min}`, 'pl-paso', 'min', NIVEL_FORM[f.min])}${paso('Formalidad máxima', `${f.max}`, 'pl-paso', 'max', NIVEL_FORM[f.max])}${interruptor('Exige traje', f.traje, 'pl-traje')}</div>`;
+  h += `<div class="sub2">Color</div><div class="chips">${Object.entries(PLAN_COLORES).map(([k, c]) => `<button class="chip ${f.color === k ? 'on' : ''}" data-act="pl-color" data-v="${k}" aria-label="Color ${k}"><span class="sw" style="background:${c.claro}"></span></button>`).join('')}</div>`;
+  h += `<div class="mt">${paso('Formalidad mínima', `${f.min}`, 'pl-paso', 'min', NIVEL_FORM[f.min])}${paso('Formalidad máxima', `${f.max}`, 'pl-paso', 'max', NIVEL_FORM[f.max])}${interruptor('Exige traje', f.traje, 'pl-traje')}${interruptor('Ropa de deporte', f.deporte, 'pl-deporte')}${interruptor('Pide ir bien afeitado', f.arreglo, 'pl-arreglo', 'Te aviso si toca repaso de barba')}</div>`;
+  h += `<div class="sub2">Toque final (peinado, perfume…)</div><input class="inp" data-campo="pf.nota" value="${esc(f.nota || '')}" placeholder="Ej.: peinado hacia atrás" maxlength="80" autocomplete="off">`;
   h += `<div class="sub2">Franja por defecto</div><div class="chips"><button class="chip ${!f.franja ? 'on' : ''}" data-act="pl-franja" data-v="">Según la hora</button>${ORDEN_FRANJAS.map(x => `<button class="chip ${f.franja === x ? 'on' : ''}" data-act="pl-franja" data-v="${x}">${FRANJAS[x].label}</button>`).join('')}</div>`;
   h += `<div class="sub2">Nunca en este plan</div>`;
   for (const c of ORDEN_CAPAS) { const ts = TIPOS.filter(t => t.capa === c); h += `<div class="chips" style="margin-bottom:8px">${ts.map(t => `<button class="chip ${f.excluir.includes(t.id) ? 'on' : ''}" data-act="pl-excl" data-v="${t.id}">${t.label}</button>`).join('')}</div>`; }
@@ -1355,7 +1547,7 @@ async function cargarEjemplo() {
   const nuevos = EJEMPLO.map(([tipo, color, extra]) => normalizarPrenda({ id: `ej-${tipo}-${color}`, tipo, color, ...(extra || {}), ejemplo: true }));
   for (const p of nuevos) { const i = S.prendas.findIndex(x => x.id === p.id); if (i >= 0) S.prendas[i] = p; else S.prendas.push(p); }
   await DB.putMany('prendas', nuevos).catch(errorGuardado);
-  invalidar(); S.ui.tab = 'hoy'; render(); toast('Armario de ejemplo cargado: 20 prendas');
+  invalidar(); S.ui.tab = 'hoy'; render(); toast(`Armario de ejemplo cargado: ${EJEMPLO.length} prendas`);
 }
 async function quitarEjemplo() {
   const ids = S.prendas.filter(p => p.ejemplo).map(p => p.id);
@@ -1496,7 +1688,14 @@ const ACT = {
     if (!b) return;
     await borrarTodoDatos(false); render(); toast('Datos borrados');
   },
-  'pl-grupo': el => { S.pf.grupo = el.dataset.v; const p0 = S.planes.find(p => p.grupo === el.dataset.v); if (p0) S.pf.icono = p0.icono; refrescarHoja(); },
+  'pl-grupo': el => { S.pf.grupo = el.dataset.v; const p0 = S.planes.find(p => p.grupo === el.dataset.v); if (p0) { S.pf.icono = p0.icono; S.pf.color = p0.color; } refrescarHoja(); },
+  'pl-color': el => { S.pf.color = el.dataset.v; refrescarHoja(); },
+  'pl-deporte': () => { S.pf.deporte = !S.pf.deporte; refrescarHoja(); },
+  'pl-arreglo': () => { S.pf.arreglo = !S.pf.arreglo; refrescarHoja(); },
+  'moto': () => { S.meta.moto = !S.meta.moto; guardarKV('meta', S.meta); S.ui.locks = {}; S.ui.puesto = null; S.ui.idx = 0; invalidar(); render(); },
+  'barba-hecho': () => { S.meta.ultimoAfeitado = isoDia(); guardarKV('meta', S.meta); render(); toast('Apuntado: barba repasada hoy'); },
+  'barba-dia': el => { S.meta.ultimoAfeitado = addDias(isoDia(), -(+el.dataset.v)); guardarKV('meta', S.meta); render(); },
+  'p-repaso': el => { S.perfil.repasoCada = Math.max(2, Math.min(14, (S.perfil.repasoCada || 4) + (+el.dataset.d))); guardarKV('perfil', S.perfil); render(); },
   'pl-icono': el => { S.pf.icono = el.dataset.v; refrescarHoja(); },
   'pl-paso': el => { const f = S.pf, k = el.dataset.k; f[k] = Math.max(1, Math.min(5, f[k] + (+el.dataset.d))); if (f.min > f.max) { if (k === 'min') f.max = f.min; else f.min = f.max; } refrescarHoja(); },
   'pl-traje': () => { S.pf.traje = !S.pf.traje; S.pf.sinMedia = S.pf.traje; refrescarHoja(); },
