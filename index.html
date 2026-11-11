@@ -115,6 +115,7 @@ button.pz:active{transform:scale(.97)}
 .hecho{display:flex;gap:10px;align-items:center;justify-content:center;background:rgba(50,215,75,.1);color:var(--ok);border-radius:var(--r3);padding:12px;font-weight:600;margin-top:20px;text-align:center}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 .tile{position:relative;background:var(--s1);border:1px solid var(--line);border-radius:var(--r3);overflow:hidden;display:block;width:100%}
+.tile .tn2{font-size:10.5px;padding:0 8px 7px;margin-top:-5px;color:var(--tx3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tile .tn{font-size:12px;font-weight:600;padding:6px 8px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx2)}
 .tile .bd{position:absolute;top:6px;left:6px;font-size:10px;font-weight:700;padding:3px 7px;border-radius:99px;color:#1d1404;text-transform:uppercase;letter-spacing:.04em}
 .tile .bd.sucia{background:rgba(255,179,64,.92)}
@@ -244,7 +245,7 @@ button.lt:active{transform:scale(.97)}
 (function () {
 
 /* ============ CONSTANTES ============ */
-const APP_VERSION = '1.1.0';
+const APP_VERSION = '1.3.1';
 const EN_IFRAME = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
 const MADRID = { lat: 40.4168, lon: -3.7038, nombre: 'Madrid' };
 
@@ -261,6 +262,7 @@ const CAPAS = {
   base: { label: 'Base', orden: 1 },
   corbata: { label: 'Corbata', orden: 2 },
   media: { label: 'Capa media', orden: 3 },
+  chaleco: { label: 'Chaleco', orden: 4.5 },
   americana: { label: 'Americana', orden: 4 },
   traje: { label: 'Traje', orden: 4 },
   abrigo: { label: 'Abrigo', orden: 5 },
@@ -269,8 +271,8 @@ const CAPAS = {
   calcetines: { label: 'Calcetines', orden: 7 },
   calzado: { label: 'Calzado', orden: 8 },
 };
-const ORDEN_CAPAS = ['base', 'media', 'americana', 'abrigo', 'pantalon', 'calzado', 'calcetines', 'gafas', 'moto', 'traje', 'corbata'];
-const FILTRO_CAPAS = { base: 'Base', media: 'Jerseys', americana: 'Americanas', traje: 'Trajes', abrigo: 'Abrigos', moto: 'Moto', pantalon: 'Pantalones', calzado: 'Calzado', calcetines: 'Calcetines', gafas: 'Gafas', corbata: 'Corbatas' };
+const ORDEN_CAPAS = ['base', 'media', 'chaleco', 'americana', 'abrigo', 'pantalon', 'calzado', 'calcetines', 'gafas', 'moto', 'traje', 'corbata'];
+const FILTRO_CAPAS = { base: 'Base', media: 'Jerseys', chaleco: 'Chalecos', americana: 'Americanas', traje: 'Trajes', abrigo: 'Abrigos', moto: 'Moto', pantalon: 'Pantalones', calzado: 'Calzado', calcetines: 'Calcetines', gafas: 'Gafas', corbata: 'Corbatas' };
 
 /* g: género, n: número (para concordar el color), usos: usos antes de lavar (0 = solo rota) */
 const TIPOS = [
@@ -288,7 +290,7 @@ const TIPOS = [
   { id: 'traje', label: 'Traje', capa: 'traje', g: 'm', n: 's', abrigo: 2, form: 5, usos: 0, tejido: 'lana', glifo: 'traje' },
   { id: 'corbata', label: 'Corbata', capa: 'corbata', g: 'f', n: 's', abrigo: 0, form: 5, usos: 0, tejido: 'seda', glifo: 'corbata' },
   { id: 'cazadora', label: 'Cazadora', capa: 'abrigo', g: 'f', n: 's', abrigo: 3, form: 2, usos: 0, tejido: 'algodón', glifo: 'cazadora' },
-  { id: 'chaleco', label: 'Chaleco acolchado', capa: 'abrigo', g: 'm', n: 's', abrigo: 2, form: 2, usos: 0, tejido: 'técnico', glifo: 'chaleco' },
+  { id: 'chaleco', label: 'Chaleco acolchado', capa: 'chaleco', g: 'm', n: 's', abrigo: 2, form: 2, usos: 0, tejido: 'técnico', glifo: 'chaleco' },
   { id: 'chubasquero', label: 'Chubasquero', capa: 'abrigo', g: 'm', n: 's', abrigo: 2, form: 1, usos: 0, tejido: 'técnico', imp: true, glifo: 'cazadora' },
   { id: 'gabardina', label: 'Gabardina', capa: 'abrigo', g: 'f', n: 's', abrigo: 3, form: 4, usos: 0, tejido: 'algodón', imp: true, glifo: 'gabardina' },
   { id: 'abrigo', label: 'Abrigo', capa: 'abrigo', g: 'm', n: 's', abrigo: 4, form: 4, usos: 0, tejido: 'lana', glifo: 'abrigo' },
@@ -355,6 +357,10 @@ const COLOR_MAP = Object.fromEntries(COLORES.map(c => [c.id, c]));
 const TEJIDOS = ['algodón', 'lino', 'punto', 'lana', 'denim', 'pana', 'piel', 'ante', 'tela', 'técnico', 'seda', 'sintético'];
 const TEJIDO_NO_LLUVIA = ['ante', 'tela'];
 const CORTES = ['pitillo', 'slim', 'regular', 'ancho', 'oversize'];
+const AJ_CAPAS = ['base', 'media', 'pantalon'];
+const AJUSTES = [['', 'Da igual'], ['normal', 'Normal'], ['ajustado', 'Ajustado']];
+const ETIQUETAS = [['paises', 'Países'], ['discotecas', 'Discotecas'], ['surf', 'Surf/skate'], ['musica', 'Música'], ['random', 'Random']];
+const ETIQ_TIPOS = ['camiseta', 'camiseta-ml'];
 const NIVEL_FORM = ['', 'Muy informal', 'Informal', 'Arreglado', 'Elegante', 'Traje'];
 const NIVEL_ABRIGO = ['Nada', 'Fresquito', 'Ligero', 'Medio', 'Abriga', 'Mucho'];
 const ICONOS_PLAN = ['maletin', 'corazon', 'casa', 'jarra', 'pesa', 'estrella'];
@@ -368,16 +374,16 @@ const COLOR_GRUPO = { Trabajo: 'azul', Pareja: 'coral', Familia: 'verde', Amigos
 
 /* El código es público: aquí no van nombres propios. Tus planes personales llegan al importar. */
 const PLANES_DEFAULT = [
-  { id: 'trabajo-normal', grupo: 'Trabajo', nombre: 'Normal', icono: 'maletin', color: 'azul', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: 'dia', nota: '' },
-  { id: 'trabajo-evento', grupo: 'Trabajo', nombre: 'Evento importante', icono: 'maletin', color: 'azul', min: 3, max: 4, traje: false, sinMedia: false, deporte: false, arreglo: true, excluir: ['vaquero', 'zapatillas', 'camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias'], preferir: ['chino', 'camisa', 'zapatos', 'jersey-fino'], franja: 'dia', nota: '' },
-  { id: 'trabajo-presidencia', grupo: 'Trabajo', nombre: 'Presidencia', icono: 'maletin', color: 'azul', min: 3, max: 5, traje: true, sinMedia: true, deporte: false, arreglo: true, excluir: ['vaquero', 'zapatillas', 'camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias', 'mocasines', 'nauticos', 'botas'], preferir: ['camisa-vestir', 'zapatos'], franja: 'dia', nota: '' },
-  { id: 'pareja-paseo', grupo: 'Pareja', nombre: 'Paseo / cine', icono: 'corazon', color: 'coral', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: null, nota: '' },
-  { id: 'pareja-cena', grupo: 'Pareja', nombre: 'Comida / cena', icono: 'corazon', color: 'coral', min: 2, max: 4, traje: false, sinMedia: false, deporte: false, arreglo: true, excluir: ['jogger', 'corto', 'sudadera'], preferir: [], franja: null, nota: '' },
-  { id: 'familia', grupo: 'Familia', nombre: 'Comida tranquila', icono: 'casa', color: 'verde', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: 'tarde', nota: '' },
-  { id: 'amigos', grupo: 'Amigos', nombre: 'Cañas', icono: 'jarra', color: 'ambar', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: 'tarde', nota: '' },
+  { id: 'trabajo-normal', grupo: 'Trabajo', trabajo: true, nombre: 'Normal', icono: 'maletin', color: 'azul', min: 2, max: 4, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: ['camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias', 'americana'], preferir: ['camisa', 'vaquero', 'jersey-fino', 'jersey-grueso'], franja: 'dia', nota: '' },
+  { id: 'trabajo-evento', grupo: 'Trabajo', trabajo: true, nombre: 'Evento importante', icono: 'maletin', color: 'azul', min: 3, max: 4, traje: false, sinMedia: false, deporte: false, arreglo: true, excluir: ['vaquero', 'zapatillas', 'camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias'], preferir: ['chino', 'camisa', 'zapatos', 'jersey-fino'], franja: 'dia', nota: '' },
+  { id: 'trabajo-presidencia', grupo: 'Trabajo', trabajo: true, nombre: 'Presidencia', icono: 'maletin', color: 'azul', min: 3, max: 5, traje: true, sinMedia: true, deporte: false, arreglo: true, excluir: ['vaquero', 'zapatillas', 'camiseta', 'camiseta-ml', 'polo', 'sudadera', 'jogger', 'corto', 'sandalias', 'mocasines', 'nauticos', 'botas'], preferir: ['camisa-vestir', 'zapatos'], franja: 'dia', nota: '' },
+  { id: 'pareja-paseo', grupo: 'Pareja', nombre: 'Paseo / cine', icono: 'corazon', color: 'coral', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: ['vaquero', 'camiseta', 'camiseta-ml', 'jersey-fino', 'jersey-grueso', 'sudadera'], franja: null, nota: '' },
+  { id: 'pareja-cena', grupo: 'Pareja', nombre: 'Comida / cena', icono: 'corazon', color: 'coral', min: 2, max: 4, traje: false, sinMedia: false, deporte: false, arreglo: true, excluir: ['jogger', 'corto', 'sudadera'], preferir: ['camisa', 'jersey-fino', 'chino'], franja: null, nota: '' },
+  { id: 'familia', grupo: 'Familia', nombre: 'Comida tranquila', icono: 'casa', color: 'verde', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: ['vaquero', 'camiseta', 'camiseta-ml', 'jersey-fino', 'jersey-grueso', 'sudadera'], franja: 'tarde', nota: '' },
+  { id: 'amigos', grupo: 'Amigos', nombre: 'Cañas', icono: 'jarra', color: 'ambar', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: ['vaquero', 'camiseta', 'camiseta-ml', 'jersey-fino', 'jersey-grueso', 'sudadera'], franja: 'tarde', nota: '' },
   { id: 'gimnasio', grupo: 'Gimnasio', nombre: 'Entrenar', icono: 'pesa', color: 'teal', min: 1, max: 2, traje: false, sinMedia: false, deporte: true, arreglo: false, excluir: [], preferir: [], franja: null, nota: '' },
 ];
-const PERFIL_DEFAULT = { sensacion: 'normal', aprendido: 0, repasoCada: 4, prefiero: [], evito: [], cortesEvito: [], ubicacion: { modo: 'auto', nombre: null, lat: null, lon: null } };
+const PERFIL_DEFAULT = { sensacion: 'normal', aprendido: 0, repasoCada: 4, siempreJersey: true, jerseyHasta: 20, siempreChaqueta: true, chaquetaHasta: 18, siempreChaleco: true, chalecoHasta: 14, prefiero: [], evito: [], cortesEvito: [], ubicacion: { modo: 'auto', nombre: null, lat: null, lon: null } };
 const REGLAS_DEFAULT = { noRepetirCalzado: true, diasSinRepetir: 0 };
 
 const EJEMPLO = [
@@ -390,6 +396,8 @@ const EJEMPLO = [
   ['calcetines-vestir', 'marino'], ['calcetines-casual', 'gris'], ['calcetines-deporte', 'blanco'],
   ['gafas-sol', 'negro'], ['gafas-sol', 'marron'], ['moto-invierno', 'negro'], ['moto-verano', 'gris'],
   ['camiseta-tecnica', 'gris'], ['corto-deporte', 'negro'], ['chandal', 'negro'], ['zapatillas-deporte', 'blanco'],
+  ['jersey-fino', 'gris'], ['jersey-grueso', 'marino'], ['cardigan', 'camel'], ['camiseta', 'gris'], ['cazadora', 'denim'],
+  ['zapatos', 'marron', { tejido: 'ante', id: 'ej-zapatos-marron-ante' }],
 ];
 
 /* ============ ICONOS ============ */
@@ -499,7 +507,7 @@ const S = {
   climaCache: null,
   clima: { estado: 'cargando', datos: null, ubic: null, ts: 0 },
   manual: null,
-  ui: { tab: 'hoy', dia: 'hoy', planId: null, franja: null, locks: {}, sug: null, idx: 0, puesto: null, fCapa: 'todo', fEstado: 'todas', hoyFecha: isoDia() },
+  ui: { tab: 'hoy', dia: 'hoy', planId: null, franja: null, locks: {}, sug: null, idx: 0, puesto: null, fCapa: 'todo', fEstado: 'todas', fEtiq: '', hoyFecha: isoDia() },
   hoja: null, form: null, mf: null, pf: null, exp: null, coladaSel: new Set(), uq: '', uRes: [],
   persistente: true,
 };
@@ -565,6 +573,9 @@ function normalizarPrenda(p) {
     ultimoUso: /^\d{4}-\d{2}-\d{2}$/.test(p.ultimoUso || '') ? p.ultimoUso : null,
     fav: !!p.fav, nombre: String(p.nombre || '').slice(0, 60), marca: String(p.marca || '').slice(0, 40),
     corte: CORTES.includes(p.corte) ? p.corte : '',
+    ajuste: AJ_CAPAS.includes(t.capa) && ['normal', 'ajustado'].includes(p.ajuste) ? p.ajuste : '',
+    trabajo: p.trabajo !== false, soloTraje: t.capa === 'base' && !!p.soloTraje,
+    etiqueta: ETIQUETAS.some(e => e[0] === p.etiqueta) ? p.etiqueta : '',
     foto: !!p.foto, ejemplo: !!p.ejemplo, creada: p.creada || new Date().toISOString(),
   };
 }
@@ -580,6 +591,7 @@ function normalizarPlan(pl) {
     nota: String(pl.nota || '').slice(0, 80),
     excluir: (pl.excluir || []).filter(x => TIPO_MAP[x]), preferir: (pl.preferir || []).filter(x => TIPO_MAP[x]),
     franja: FRANJAS[pl.franja] ? pl.franja : null,
+    trabajo: pl.trabajo != null ? !!pl.trabajo : (String(pl.grupo || '') === 'Trabajo' || !!(def && def.trabajo)),
   };
 }
 const colorPlan = pl => PLAN_COLORES[pl && pl.color] || PLAN_COLORES.azul;
@@ -600,6 +612,18 @@ async function cargar() {
     if ((S.meta.planesV || 1) < 2) {
       for (const d of PLANES_DEFAULT) if (!S.planes.some(x => x.id === d.id)) S.planes.push(normalizarPlan(d));
       S.meta.planesV = 2; guardarKV('planes', S.planes); guardarKV('meta', S.meta);
+    }
+    if (S.meta.planesV < 3) {
+      for (const id of ['trabajo-normal', 'pareja-paseo', 'pareja-cena', 'familia', 'amigos']) {
+        const d = PLANES_DEFAULT.find(x => x.id === id), pl = S.planes.find(x => x.id === id);
+        if (d && pl) { pl.min = d.min; pl.max = d.max; pl.excluir = [...d.excluir]; pl.preferir = [...d.preferir]; }
+      }
+      S.meta.planesV = 3; guardarKV('planes', S.planes); guardarKV('meta', S.meta);
+    }
+    if (S.meta.planesV < 4) {
+      for (const id of ['pareja-paseo', 'familia', 'amigos']) { const d = PLANES_DEFAULT.find(x => x.id === id), pl = S.planes.find(x => x.id === id); if (d && pl) pl.preferir = [...d.preferir]; }
+      for (const pl of S.planes) if (pl.grupo === 'Trabajo') pl.trabajo = true;
+      S.meta.planesV = 4; guardarKV('planes', S.planes); guardarKV('meta', S.meta);
     }
   } catch (e) { S.persistente = false; }
 }
@@ -832,12 +856,17 @@ function contexto() {
     semilla: new Map(),
   };
 }
-const SIN_FORMALIDAD = ['corbata', 'gafas', 'calcetines', 'moto'];
+const SIN_FORMALIDAD = ['corbata', 'gafas', 'calcetines', 'moto', 'chaleco'];
 const esDep = p => { const t = tipoDe(p.tipo); return !!(t && t.dep); };
 /* relax 0: todo. 1: permite repetir calzado/prenda reciente. 2: permite sucias y calzado de ante con lluvia. 3: ignora el estilo del plan */
 function pasaFiltro(p, ctx, relax, extra) {
   if (p.estado === 'guardada') return false;
   if (p.estado === 'sucia' && relax < 2) return false;
+  if (p.trabajo === false && ctx.plan.trabajo) return false;
+  if (p.soloTraje && !ctx.plan.traje) return false;
+  if (ctx.plan.traje && p.capa === 'base' && relax < 3 && p.color !== 'blanco') return false;
+  if (ctx.plan.traje && p.capa === 'abrigo' && p.form < 3 && relax < 3) return false;
+  if (p.capa === 'calcetines' && p.color === 'estampado' && relax < 3 && (ctx.plan.traje || ctx.plan.min >= 3)) return false;
   const t = tipoDe(p.tipo); const dep = !!(t && t.dep);
   if (t && t.minT != null && ctx.tMaxA < t.minT) return false;
   if (extra && extra.tipos && !extra.tipos.includes(p.tipo)) return false;
@@ -874,23 +903,24 @@ function candidatos(capa, ctx, extra) {
 function puntuarPieza(p, ctx) {
   let s = 0; const pl = ctx.plan, pf = S.perfil;
   if (p.fav) s += 0.7;
-  s += Math.min(diasDesdeUso(p, ctx.fecha), 14) / 14;
+  s += Math.min(diasDesdeUso(p, ctx.fecha), 14) / 14 - 0.5;
   if (!pl.deporte && p.capa !== 'abrigo' && !SIN_FORMALIDAD.includes(p.capa)) {
     s -= 0.25 * Math.abs(p.form - (pl.min + pl.max) / 2);
     if (p.form > pl.max) s -= 1.5 * (p.form - pl.max);
     if (p.form < pl.min) s -= 2 * (pl.min - p.form);
   } else if (!pl.deporte && p.capa === 'abrigo' && p.form < pl.min - 1) s -= 0.6 * (pl.min - 1 - p.form);
-  if (pl.preferir.includes(p.tipo)) s += 0.6;
+  if (pl.preferir.includes(p.tipo) && !(p.capa === 'media' && ctx.tMaxA > (S.perfil.jerseyHasta || 20))) s += 0.6;
   if (pf.prefiero.includes(p.color)) s += 0.5;
   if (pf.evito.includes(p.color)) s -= 2;
   if (p.corte && pf.cortesEvito.includes(p.corte)) s -= 2;
   if (p.estado === 'sucia') s -= 4 + p.usos / Math.max(1, p.usosMax);
   if (p.tejido === 'lino') { if (ctx.tMaxA >= 22) s += 0.4; if (ctx.tMinA < 15) s -= 0.8; }
   if (p.capa === 'pantalon' || p.capa === 'calzado') {
-    if (ctx.tMinA < 10 && p.abrigo >= 3) s += 0.5;
+    if (ctx.tMinA < 10 && p.abrigo >= 3) s += p.capa === 'calzado' ? 0.15 : 0.5;
     if (ctx.tMaxA > 24 && p.abrigo >= 3) s -= 1;
   }
   if (p.capa === 'pantalon') { if (ctx.tMaxA >= 19 && p.abrigo <= 1) s += 0.8; if (ctx.tMinA < 12 && p.abrigo <= 1) s -= 1; }
+  if (p.capa === 'calzado' || p.capa === 'media' || p.capa === 'base') s += (semilla(ctx, p) - 0.5) * 0.9;
   if (p.capa === 'calzado' && ctx.clima.lluvia >= 40) { if (p.imp) s += 1.5; else if (p.tejido === 'piel') s += 0.3; }
   if (p.capa === 'abrigo' && ctx.clima.lluvia >= 40 && p.imp) s += 1;
   if (p.capa === 'moto' && ctx.clima.lluvia >= 40 && p.imp) s += 1.5;
@@ -903,6 +933,7 @@ function puntuarPieza(p, ctx) {
 function puntuarCalcetin(s, sel, ctx) {
   const c = sel.calzado, pa = sel.pantalon || sel.traje, t = s.tipo; let v = 0;
   if (!c) return 0;
+  if (s.color === 'estampado') { let it = 0; for (const k of ['base', 'media', 'chaleco', 'abrigo', 'moto', 'pantalon']) if (sel[k]) it += pesoColor(sel[k].color); v += it > 0.6 ? -1.6 : (semilla(ctx, s) > 0.55 ? 0.6 : -0.4); }
   const formal = c.tipo === 'zapatos' || (c.tipo === 'mocasines' && ctx.plan.min >= 3);
   const deportivo = c.tipo === 'zapatillas-deporte';
   const casual = ['zapatillas', 'nauticos', 'botas'].includes(c.tipo);
@@ -919,9 +950,17 @@ function compatible(sel) {
   return true;
 }
 function semilla(ctx, p) { let v = ctx.semilla.get(p.id); if (v == null) { v = hash01(ctx.fecha + p.id); ctx.semilla.set(p.id, v); } return v; }
+const GUSTO_CAPAS = ['base', 'media', 'chaleco', 'abrigo', 'moto', 'pantalon', 'calzado'];
+const parGusto = (a, b) => a < b ? a + '|' + b : b + '|' + a;
+function apuntarGusto(sel, d) {
+  const G = S.meta.gusto || (S.meta.gusto = {});
+  const ids = GUSTO_CAPAS.map(c => sel[c] && sel[c].id).filter(Boolean);
+  for (let i = 0; i < ids.length; i++) for (let j = i + 1; j < ids.length; j++) { const k = parGusto(ids[i], ids[j]); G[k] = Math.max(-3, Math.min(3, (G[k] || 0) + d)); if (!G[k]) delete G[k]; }
+  guardarKV('meta', S.meta);
+}
 function puntuarCombo(sel, ctx, acc) {
   let s = acc, wIn = 0;
-  for (const c of ['base', 'media', 'americana', 'traje']) if (sel[c]) wIn += sel[c].abrigo;
+  for (const c of ['base', 'media', 'chaleco', 'americana', 'traje']) if (sel[c]) wIn += sel[c].abrigo;
   if (ctx.moto) {
     const wRide = wIn + (sel.moto ? sel.moto.abrigo : 0);
     s -= 3 * Math.max(0, ctx.wRide - wRide) + 1.5 * Math.max(0, wRide - ctx.wRide - 1);
@@ -942,9 +981,12 @@ function puntuarCombo(sel, ctx, acc) {
   for (const k in cnt) if (cnt[k] >= 3) s -= 0.8;
   if (sel.base && sel.pantalon && sel.base.color === sel.pantalon.color) s -= pesoColor(sel.base.color) > 0 ? 1.6 : 0.6;
   if (sel.media && sel.base && sel.media.color === sel.base.color && sel.base.color !== 'blanco') s -= 0.4;
+  if (sel.abrigo && sel.pantalon && sel.abrigo.color === 'denim' && sel.pantalon.color === 'denim') s -= 0.8;
   if (ctx.clima.lluvia >= 60 && ctx.hayImp && !((sel.abrigo && sel.abrigo.imp) || (sel.moto && sel.moto.imp))) s -= 0.8;
   if (ctx.tMaxA > 24 && sel.media) s -= 1;
   if (sel.traje && sel.base && sel.base.tipo === 'camisa-vestir') s += 0.5;
+  const G = S.meta.gusto;
+  if (G) { const ids = GUSTO_CAPAS.map(c => sel[c] && sel[c].id).filter(Boolean); for (let i = 0; i < ids.length; i++) for (let j = i + 1; j < ids.length; j++) { const v = G[parGusto(ids[i], ids[j])]; if (v) s += v < 0 ? 1.2 * Math.max(v, -3) : 0.4 * Math.min(v, 3); } }
   let h = 0; for (const c in sel) if (sel[c]) h += semilla(ctx, sel[c]);
   return s + (h % 1) * 0.05;
 }
@@ -968,44 +1010,72 @@ function generarSugerencias() {
   const exterior = ctx.moto ? ['moto', true] : ['abrigo', false];
   const slots = usarTraje
     ? [['base', true], ['traje', true], exterior, ['calzado', true], ['corbata', false]]
-    : [['base', true], ['media', false], ['americana', !!pl.traje], exterior, ['pantalon', true], ['calzado', true]];
+    : [['base', true], ['media', false], ['chaleco', false], ['americana', !!pl.traje], exterior, ['pantalon', true], ['calzado', true]];
   const opciones = [];
-  for (const [capa, req] of slots) {
+  const pf = S.perfil;
+  const pideJersey = !pl.deporte && !pl.sinMedia && pf.siempreJersey !== false && ctx.tMaxA <= (pf.jerseyHasta || 20);
+  const pideChaqueta = !pl.deporte && pf.siempreChaqueta !== false && ctx.tMinA <= (pf.chaquetaHasta || 18);
+  const pideChaleco = !pl.deporte && pf.siempreChaleco !== false && ctx.tMinA <= (pf.chalecoHasta || 14);
+  for (const [capa, req0] of slots) {
+    let req = req0;
     if (capa === 'media' && pl.sinMedia) { opciones.push({ capa, items: [null], fijo: true }); continue; }
     const lp = fijada(capa);
     if (lp) { opciones.push({ capa, items: [lp], fijo: true }); continue; }
     const extra = (capa === 'pantalon' && pl.traje && !usarTraje) ? { tipos: ['pantalon-vestir', 'chino'] } : null;
     let res;
-    if (capa === 'traje') res = trajes;
+    if ((capa === 'media' && pideJersey) || (capa === 'abrigo' && pideChaqueta) || (capa === 'chaleco' && pideChaleco)) {
+      const r = candidatos(capa, ctx, extra);
+      if (r.lista.length && r.relax <= 1) { res = r; req = true; }
+      else { res = { lista: S.prendas.filter(p => p.capa === capa && pasaFiltro(p, ctx, 0, extra)), relax: 0 }; if (capa === 'media' && S.prendas.some(p => p.capa === 'media')) ctx.avisos.push('No te queda ningún jersey limpio que encaje: toca colada.'); if (capa === 'chaleco' && S.prendas.some(p => p.capa === 'chaleco')) ctx.avisos.push('No tienes el chaleco limpio: hoy vas sin él.'); }
+    }
+    else if (capa === 'traje') res = trajes;
     else if (req) res = candidatos(capa, ctx, extra);
     else res = { lista: S.prendas.filter(p => p.capa === capa && pasaFiltro(p, ctx, 0, extra)), relax: 0 };
     if (req && !res.lista.length) {
       if (capa !== 'americana') ctx.avisos.push(`No tienes ${CAPAS[capa].label.toLowerCase()} disponible.`);
       opciones.push({ capa, items: [null] }); continue;
     }
-    const ranked = res.lista.map(p => ({ p, s: puntuarPieza(p, ctx) })).sort((a, b) => b.s - a.s).slice(0, req ? 7 : 5);
-    opciones.push({ capa, items: req ? ranked.map(r => r.p) : [null, ...ranked.map(r => r.p)], sc: new Map(ranked.map(r => [r.p.id, r.s])) });
+    opciones.push({ capa, req, scored: res.lista.map(p => ({ p, s: puntuarPieza(p, ctx) })).sort((a, b) => b.s - a.s) });
   }
-  const kept = []; let umbral = -Infinity; const sel = {}; const n = opciones.length;
-  const rec = (i, acc) => {
-    if (i === n) {
-      const sc = puntuarCombo(sel, ctx, acc);
-      if (sc > umbral) {
-        kept.push({ sel: { ...sel }, sc });
-        if (kept.length >= 1500) { kept.sort((a, b) => b.sc - a.sc); kept.length = 300; umbral = kept[299].sc; }
-      }
-      return;
+  /* Ajuste: lo ajustado va con lo ajustado y lo normal con lo normal (camisas, jerseys y pantalones). Cada grupo se prueba por separado. */
+  const conAjuste = opciones.some(o => AJ_CAPAS.includes(o.capa) && (o.scored || o.items).some(x => { const p = x && x.p ? x.p : x; return p && p.ajuste; }));
+  const armar = g => {
+    const out = [];
+    for (const o of opciones) {
+      const vale = p => !g || !p || !AJ_CAPAS.includes(o.capa) || !p.ajuste || p.ajuste === g;
+      if (!o.scored) { if (!o.items.every(vale)) return null; out.push(o); continue; }
+      const ranked = o.scored.filter(r => vale(r.p)).slice(0, o.req ? 7 : 5);
+      if (o.req && !ranked.length) return null;
+      out.push({ capa: o.capa, items: o.req ? ranked.map(r => r.p) : [null, ...ranked.map(r => r.p)], sc: new Map(ranked.map(r => [r.p.id, r.s])) });
     }
-    const o = opciones[i];
-    for (const it of o.items) {
-      sel[o.capa] = it;
-      if (!compatible(sel)) continue;
-      const v = it ? (o.sc && o.sc.has(it.id) ? o.sc.get(it.id) : puntuarPieza(it, ctx)) : 0;
-      rec(i + 1, acc + v);
-    }
-    delete sel[o.capa];
+    return out;
   };
-  rec(0, 0);
+  const enumerar = ops => {
+    const kept = []; let umbral = -Infinity; const sel = {}; const n = ops.length;
+    const rec = (i, acc) => {
+      if (i === n) {
+        const sc = puntuarCombo(sel, ctx, acc);
+        if (sc > umbral) {
+          kept.push({ sel: { ...sel }, sc });
+          if (kept.length >= 1500) { kept.sort((a, b) => b.sc - a.sc); kept.length = 300; umbral = kept[299].sc; }
+        }
+        return;
+      }
+      const o = ops[i];
+      for (const it of o.items) {
+        sel[o.capa] = it;
+        if (!compatible(sel)) continue;
+        const v = it ? (o.sc && o.sc.has(it.id) ? o.sc.get(it.id) : puntuarPieza(it, ctx)) : 0;
+        rec(i + 1, acc + v);
+      }
+      delete sel[o.capa];
+    };
+    rec(0, 0);
+    return kept;
+  };
+  let kept = [];
+  for (const g of (conAjuste ? ['ajustado', 'normal'] : [null])) { const ops = armar(g); if (ops) kept = kept.concat(enumerar(ops)); }
+  if (!kept.length && conAjuste) { kept = enumerar(armar(null)); if (kept.length) ctx.avisos.push('Hoy no te queda limpio un conjunto que case de ajuste: te propongo uno mezclado.'); }
   kept.sort((a, b) => b.sc - a.sc);
   if (kept.length > 300) kept.length = 300;
   /* Accesorios: calcetines según calzado y pantalón; gafas si hay sol */
@@ -1176,7 +1246,7 @@ function tileLook(p, cls, interactivo) {
 function htmlLook(sel, interactivo = true) {
   const g = c => sel[c] || null;
   const acc = ['gafas', 'corbata'].map(g).filter(Boolean);
-  const arriba = ['abrigo', 'moto', 'americana', 'traje', 'media', 'base'].map(g).filter(Boolean);
+  const arriba = ['abrigo', 'moto', 'chaleco', 'americana', 'traje', 'media', 'base'].map(g).filter(Boolean);
   const pant = g('pantalon'); const pies = ['calcetines', 'calzado'].map(g).filter(Boolean);
   let h = '<div class="look">';
   if (acc.length) h += `<div class="look-acc">${acc.map(p => tileLook(p, 's', interactivo)).join('')}</div>`;
@@ -1231,20 +1301,25 @@ function renderHoy() {
 }
 
 /* ============ PANTALLA ARMARIO ============ */
+function marcasTile(p) { const m = [p.ajuste === 'ajustado' ? 'Ajustado' : '', p.soloTraje ? 'Solo traje' : '', p.trabajo === false ? 'No trabajo' : ''].filter(Boolean); return m.length ? `<div class="tn2">${m.join(' · ')}</div>` : ''; }
 function renderArmario() {
   const total = S.prendas.length, limpias = S.prendas.filter(p => p.estado === 'limpia').length, sucias = S.prendas.filter(p => p.estado === 'sucia').length;
   const presentes = ORDEN_CAPAS.filter(c => S.prendas.some(p => p.capa === c));
   if (S.ui.fCapa !== 'todo' && !presentes.includes(S.ui.fCapa)) S.ui.fCapa = 'todo';
   const fe = S.ui.fEstado;
-  const lista = S.prendas.filter(p => (S.ui.fCapa === 'todo' || p.capa === S.ui.fCapa) && (fe === 'todas' || p.estado === fe))
+  const enCapa = S.prendas.filter(p => S.ui.fCapa === 'todo' || p.capa === S.ui.fCapa);
+  const etiqs = ETIQUETAS.filter(([v]) => enCapa.some(p => p.etiqueta === v));
+  if (S.ui.fEtiq && !etiqs.some(([v]) => v === S.ui.fEtiq)) S.ui.fEtiq = '';
+  const lista = enCapa.filter(p => (fe === 'todas' || p.estado === fe) && (!S.ui.fEtiq || p.etiqueta === S.ui.fEtiq))
     .sort((a, b) => (CAPAS[a.capa].orden - CAPAS[b.capa].orden) || a.tipo.localeCompare(b.tipo) || a.color.localeCompare(b.color));
   let h = `<div class="cab"><div><div class="kick">${total} prendas · ${limpias} limpias</div><h1>Armario</h1></div></div>`;
   h += `<div class="grupo-acc" style="margin-top:0"><button class="btn pri grow" data-act="add">${ico('mas', 's')} Añadir prenda</button><button class="btn" data-act="colada">${ico('gota', 's')} Colada${sucias ? ` <span class="n">${sucias}</span>` : ''}</button></div>`;
   if (!total) return h + `<div class="vacio">${ico('percha')}<div class="t1">Aún no hay nada</div><div>Haz una foto a cada prenda sobre un fondo liso. Tarda unos segundos por prenda.</div><div class="mt"><button class="btn" data-act="p-ejemplo">O prueba con un armario de ejemplo</button></div></div>`;
   h += `<div class="chips x" style="margin-top:16px"><button class="chip ${S.ui.fCapa === 'todo' ? 'on' : ''}" data-act="fcapa" data-v="todo">Todo</button>${presentes.map(c => `<button class="chip ${S.ui.fCapa === c ? 'on' : ''}" data-act="fcapa" data-v="${c}">${FILTRO_CAPAS[c]} <span class="c">${S.prendas.filter(p => p.capa === c).length}</span></button>`).join('')}</div>`;
   h += `<div class="chips x" style="margin-top:8px">${[['todas', 'Todas'], ['limpia', 'Limpias'], ['sucia', 'Para lavar'], ['guardada', 'Fuera de temporada']].map(([v, l]) => `<button class="chip ${fe === v ? 'on' : ''}" data-act="festado" data-v="${v}">${l}</button>`).join('')}</div>`;
+  if (etiqs.length) h += `<div class="chips x" style="margin-top:8px"><button class="chip ${!S.ui.fEtiq ? 'on' : ''}" data-act="fetiq" data-v="">Todos los grupos</button>${etiqs.map(([v, l]) => `<button class="chip ${S.ui.fEtiq === v ? 'on' : ''}" data-act="fetiq" data-v="${v}">${l} <span class="c">${enCapa.filter(p => p.etiqueta === v).length}</span></button>`).join('')}</div>`;
   if (!lista.length) return h + `<div class="vacio"><div>No hay prendas con este filtro.</div></div>`;
-  h += `<div class="grid3">${lista.map(p => `<button class="tile ${p.estado !== 'limpia' ? 'apagada' : ''}" data-act="prenda" data-id="${esc(p.id)}"><div class="ph">${mediaP(p)}</div>${p.estado === 'sucia' ? '<span class="bd sucia">Lavar</span>' : p.estado === 'guardada' ? '<span class="bd guardada">Fuera</span>' : ''}${p.fav ? `<span class="fv">${ico('estrella', 's')}</span>` : ''}<div class="tn">${esc(nombreT(p))}</div></button>`).join('')}</div>`;
+  h += `<div class="grid3">${lista.map(p => `<button class="tile ${p.estado !== 'limpia' ? 'apagada' : ''}" data-act="prenda" data-id="${esc(p.id)}"><div class="ph">${mediaP(p)}</div>${p.estado === 'sucia' ? '<span class="bd sucia">Lavar</span>' : p.estado === 'guardada' ? '<span class="bd guardada">Fuera</span>' : ''}${p.fav ? `<span class="fv">${ico('estrella', 's')}</span>` : ''}<div class="tn">${esc(nombreT(p))}</div>${marcasTile(p)}</button>`).join('')}</div>`;
   return h;
 }
 
@@ -1258,6 +1333,7 @@ function renderPerfil() {
   const resCol = [pf.prefiero.length ? `prefiero ${pf.prefiero.length}` : '', pf.evito.length ? `evito ${pf.evito.length}` : '', pf.cortesEvito.length ? `${pf.cortesEvito.length} cortes fuera` : ''].filter(Boolean).join(' · ') || 'Sin preferencias';
   h += `<div class="card mt" style="padding-top:4px;padding-bottom:4px"><details class="mas" id="p-col" style="margin:0;border:0" ${S.ui.colAbierto ? 'open' : ''}><summary>Colores y cortes<span>${esc(resCol)}</span></summary><div class="sub2" style="margin-top:4px">Prefiero</div><div class="chips">${COLORES.map(c => chipColor(c.id, pf.prefiero.includes(c.id), 'p-pref')).join('')}</div><div class="sub2">Evito</div><div class="chips">${COLORES.map(c => chipColor(c.id, pf.evito.includes(c.id), 'p-evito')).join('')}</div><div class="sub2">Cortes que evito</div><div class="chips" style="margin-bottom:14px">${CORTES.map(c => `<button class="chip ${pf.cortesEvito.includes(c) ? 'on' : ''}" data-act="p-corte" data-v="${c}">${c}</button>`).join('')}</div></details></div>`;
   h += `<div class="card mt"><div class="lab" style="margin-top:0">Planes</div>${S.planes.map(p => `<button class="fila" data-act="p-plan" data-id="${esc(p.id)}"><span class="pi" style="color:${colorPlan(p).claro}">${ico(p.icono, 's')}</span><div class="f1"><div>${esc(p.grupo)} · ${esc(p.nombre)}</div><div>Formalidad ${p.min === p.max ? p.min : p.min + '-' + p.max}${p.traje ? ' · con traje' : ''}${p.deporte ? ' · deporte' : ''}${p.franja ? ' · ' + FRANJAS[p.franja].label.toLowerCase() : ''}</div></div>${ico('flecha', 's')}</button>`).join('')}<button class="btn ghost mt" data-act="p-plan-nuevo">${ico('mas', 's')} Añadir plan</button></div>`;
+  h += `<div class="card mt"><div class="lab" style="margin-top:0">Tu forma de vestir</div>${interruptor('Jersey casi siempre', pf.siempreJersey !== false, 'p-jersey', 'Salvo en Gimnasio y con traje')}${pf.siempreJersey !== false ? paso('Jersey hasta', `${pf.jerseyHasta || 20} °C`, 'p-jhasta', 'j', 'Por encima, solo si hace falta') : ''}${interruptor('Chaleco acolchado en invierno', pf.siempreChaleco !== false, 'p-chaleco', 'Entre el jersey y la chaqueta')}${pf.siempreChaleco !== false ? paso('Chaleco desde', `${pf.chalecoHasta || 14} °C`, 'p-chlhasta', 'h', 'Por debajo de esta temperatura') : ''}${interruptor('Chaqueta o abrigo casi siempre', pf.siempreChaqueta !== false, 'p-chaqueta')}${pf.siempreChaqueta !== false ? paso('Chaqueta hasta', `${pf.chaquetaHasta || 18} °C`, 'p-chasta', 'c', 'Por encima, solo si hace falta') : ''}</div>`;
   h += `<div class="card mt"><div class="lab" style="margin-top:0">Reglas</div>${interruptor('No repetir calzado dos días seguidos', r.noRepetirCalzado, 'r-calzado')}${paso('No repetir prenda en', r.diasSinRepetir ? `${r.diasSinRepetir} d` : 'Libre', 'r-dias', 'dias', 'Camisas, jerseys y pantalones')}</div>`;
   h += `<div class="card mt"><div class="lab" style="margin-top:0">Barba</div><div class="muted">${S.meta.ultimoAfeitado ? `Último repaso: ${esc(fechaLarga(S.meta.ultimoAfeitado))}` : 'Aún no has apuntado ningún repaso.'}</div>${paso('Avisar a partir de', `${pf.repasoCada || 4} días`, 'p-repaso', 'repaso', 'En los planes que piden ir arreglado')}<button class="btn mt" style="width:100%" data-act="barba-hecho">${ico('cuchilla', 's')} Me he afeitado hoy</button></div>`;
   h += `<div class="card mt"><div class="lab" style="margin-top:0">Ubicación del tiempo</div><button class="fila" data-act="clima"><span class="pi">${ico('ubic', 's')}</span><div class="f1"><div>${esc(ubTxt)}</div><div>Toca para cambiarla</div></div>${ico('flecha', 's')}</button></div>`;
@@ -1291,7 +1367,7 @@ function renderBarra() {
   const b = $('#barra'); const r = S.ui.sug;
   const on = S.ui.tab === 'hoy' && !S.ui.puesto && S.prendas.length > 0 && r && r.lista.length > 0;
   b.classList.toggle('on', !!on); $('#main').classList.toggle('conbarra', !!on); document.body.classList.toggle('conbarra', !!on);
-  b.innerHTML = on ? `<button class="btn grow" data-act="otra" ${r.lista.length < 2 ? 'disabled' : ''}>${ico('otra', 's')} Otra</button><button class="btn pc grow" data-act="puesto">${ico('check', 's')} Me lo pongo</button>` : '';
+  b.innerHTML = on ? `<button class="btn" data-act="nomegusta" aria-label="No me gusta">${ico('x', 's')} No</button><button class="btn grow" data-act="otra" ${r.lista.length < 2 ? 'disabled' : ''}>${ico('otra', 's')} Otra</button><button class="btn pc grow" data-act="puesto">${ico('check', 's')} Me lo pongo</button>` : '';
 }
 
 /* ============ HOJAS (paneles inferiores) ============ */
@@ -1317,8 +1393,8 @@ function cerrarHoja() {
 /* --- Alta / edición de prenda --- */
 function abrirFormPrenda(id, base) {
   const p = id ? S.prendas.find(x => x.id === id) : null;
-  if (p) S.form = { id: p.id, capa: p.capa, tipo: p.tipo, color: p.color, tejido: p.tejido, abrigo: p.abrigo, form: p.form, usosMax: p.usosMax, imp: p.imp, fav: p.fav, corte: p.corte, nombre: p.nombre, estado: p.estado, tieneFoto: p.foto, sugColores: [], verPaleta: true, abierto: false };
-  else S.form = { id: null, capa: (base && base.capa) || null, tipo: null, color: null, tejido: null, abrigo: 2, form: 3, usosMax: 1, imp: false, fav: false, corte: '', nombre: '', sugColores: [], verPaleta: false, abierto: false };
+  if (p) S.form = { id: p.id, capa: p.capa, tipo: p.tipo, color: p.color, tejido: p.tejido, abrigo: p.abrigo, form: p.form, usosMax: p.usosMax, imp: p.imp, fav: p.fav, corte: p.corte, nombre: p.nombre, estado: p.estado, tieneFoto: p.foto, ajuste: p.ajuste, trabajo: p.trabajo, soloTraje: p.soloTraje, etiqueta: p.etiqueta, sugColores: [], verPaleta: true, abierto: false };
+  else S.form = { id: null, capa: (base && base.capa) || null, tipo: null, color: null, tejido: null, abrigo: 2, form: 3, usosMax: 1, imp: false, fav: false, corte: '', nombre: '', ajuste: '', trabajo: true, soloTraje: false, etiqueta: '', sugColores: [], verPaleta: false, abierto: false };
   abrirHoja('prenda');
 }
 function aplicarTipo(f, tipoId) {
@@ -1335,6 +1411,9 @@ HOJAS.prenda = () => {
   h += `<div class="lab">Color${sug.length ? '<small>detectado en la foto</small>' : ''}</div><div class="chips">${paleta.map(cid => chipColor(cid, f.color === cid, 'f-color')).join('')}${!f.verPaleta && sug.length ? '<button class="chip" data-act="f-paleta">Otro…</button>' : ''}</div>`;
   h += `<div class="lab">¿Qué es?</div><div class="chips">${ORDEN_CAPAS.map(c => `<button class="chip ${f.capa === c ? 'on' : ''}" data-act="f-capa" data-v="${c}">${CAPAS[c].label}</button>`).join('')}</div>`;
   if (f.capa && tipos.length > 1) h += `<div class="chips mt">${tipos.map(t => `<button class="chip ${f.tipo === t.id ? 'on' : ''}" data-act="f-tipo" data-v="${t.id}">${t.label}</button>`).join('')}</div>`;
+  if (f.tipo && AJ_CAPAS.includes(f.capa)) h += `<div class="lab">Ajuste<small>lo ajustado va con lo ajustado</small></div><div class="chips">${AJUSTES.map(([v, l]) => `<button class="chip ${(f.ajuste || '') === v ? 'on' : ''}" data-act="f-ajuste" data-v="${v}">${l}</button>`).join('')}</div>`;
+  if (f.tipo && ETIQ_TIPOS.includes(f.tipo)) h += `<div class="lab">Grupo</div><div class="chips"><button class="chip ${!f.etiqueta ? 'on' : ''}" data-act="f-etiq" data-v="">Ninguno</button>${ETIQUETAS.map(([v, l]) => `<button class="chip ${f.etiqueta === v ? 'on' : ''}" data-act="f-etiq" data-v="${v}">${l}</button>`).join('')}</div>`;
+  if (f.tipo) h += `<div class="mt">${interruptor('Para el trabajo', f.trabajo !== false, 'f-trabajo', f.trabajo === false ? 'No sale en los planes de trabajo' : '')}${f.capa === 'base' ? interruptor('Solo con traje', !!f.soloTraje, 'f-solotraje', 'Camisas que reservas para los trajes') : ''}</div>`;
   if (f.tipo) {
     h += `<details class="mas" id="f-det" ${f.abierto ? 'open' : ''}><summary>Ajustar detalles<span>${esc(f.tejido)} · abriga ${f.abrigo} · formal ${f.form}</span></summary>`;
     h += `<div class="sub2" style="margin-top:6px">Tejido</div><div class="chips">${TEJIDOS.map(x => `<button class="chip ${f.tejido === x ? 'on' : ''}" data-act="f-tejido" data-v="${x}">${x}</button>`).join('')}</div>`;
@@ -1350,7 +1429,7 @@ async function guardarForm(otra) {
   const f = S.form; if (!f || !f.capa || !f.tipo) return;
   const nuevo = !f.id; const id = f.id || uid();
   const prev = S.prendas.find(p => p.id === id);
-  const p = normalizarPrenda({ ...(prev || {}), id, tipo: f.tipo, color: f.color || 'gris', tejido: f.tejido, abrigo: f.abrigo, form: f.form, imp: f.imp, usosMax: f.usosMax, corte: f.corte, nombre: (f.nombre || '').trim(), fav: f.fav });
+  const p = normalizarPrenda({ ...(prev || {}), id, tipo: f.tipo, color: f.color || 'gris', tejido: f.tejido, abrigo: f.abrigo, form: f.form, imp: f.imp, usosMax: f.usosMax, corte: f.corte, nombre: (f.nombre || '').trim(), fav: f.fav, ajuste: f.ajuste, trabajo: f.trabajo !== false, soloTraje: f.soloTraje, etiqueta: f.etiqueta });
   if (prev && prev.usos > p.usosMax && p.usosMax > 0 && p.estado === 'limpia') p.estado = 'sucia';
   if (f.fotoBlob) { try { const buf = await blobABuf(f.fotoBlob); await guardarFoto(id, buf, 'image/jpeg'); p.foto = true; limpiarURL(id); } catch (e) { toast('No se pudo guardar la foto'); } }
   await guardarPrenda(p);
@@ -1428,7 +1507,7 @@ async function hacerBusquedaCiudad() {
 /* --- Editor de planes --- */
 function abrirPlan(id) {
   const p = id ? S.planes.find(x => x.id === id) : null;
-  S.pf = p ? clon(p) : { id: null, grupo: '', nombre: '', icono: 'estrella', color: 'morado', min: 1, max: 3, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: null, nota: '' };
+  S.pf = p ? clon(p) : { id: null, grupo: '', nombre: '', icono: 'estrella', color: 'morado', min: 1, max: 3, trabajo: false, traje: false, sinMedia: false, deporte: false, arreglo: false, excluir: [], preferir: [], franja: null, nota: '' };
   abrirHoja('plan');
 }
 HOJAS.plan = () => {
@@ -1438,7 +1517,7 @@ HOJAS.plan = () => {
   h += `<div class="sub2">Nombre del plan</div><input class="inp" data-campo="pf.nombre" value="${esc(f.nombre)}" placeholder="Ej.: Comida / cena" maxlength="30" autocomplete="off">`;
   h += `<div class="sub2">Icono</div><div class="chips">${ICONOS_PLAN.map(i => `<button class="chip ${f.icono === i ? 'on' : ''}" data-act="pl-icono" data-v="${i}" aria-label="${i}">${ico(i, 's')}</button>`).join('')}</div>`;
   h += `<div class="sub2">Color</div><div class="chips">${Object.entries(PLAN_COLORES).map(([k, c]) => `<button class="chip ${f.color === k ? 'on' : ''}" data-act="pl-color" data-v="${k}" aria-label="Color ${k}"><span class="sw" style="background:${c.claro}"></span></button>`).join('')}</div>`;
-  h += `<div class="mt">${paso('Formalidad mínima', `${f.min}`, 'pl-paso', 'min', NIVEL_FORM[f.min])}${paso('Formalidad máxima', `${f.max}`, 'pl-paso', 'max', NIVEL_FORM[f.max])}${interruptor('Exige traje', f.traje, 'pl-traje')}${interruptor('Ropa de deporte', f.deporte, 'pl-deporte')}${interruptor('Pide ir bien afeitado', f.arreglo, 'pl-arreglo', 'Te aviso si toca repaso de barba')}</div>`;
+  h += `<div class="mt">${paso('Formalidad mínima', `${f.min}`, 'pl-paso', 'min', NIVEL_FORM[f.min])}${paso('Formalidad máxima', `${f.max}`, 'pl-paso', 'max', NIVEL_FORM[f.max])}${interruptor('Plan de trabajo', f.trabajo, 'pl-trabajo', 'Solo usa ropa marcada «Para el trabajo»')}${interruptor('Exige traje', f.traje, 'pl-traje', 'Siempre con camisa blanca')}${interruptor('Ropa de deporte', f.deporte, 'pl-deporte')}${interruptor('Pide ir bien afeitado', f.arreglo, 'pl-arreglo', 'Te aviso si toca repaso de barba')}</div>`;
   h += `<div class="sub2">Toque final (peinado, perfume…)</div><input class="inp" data-campo="pf.nota" value="${esc(f.nota || '')}" placeholder="Ej.: peinado hacia atrás" maxlength="80" autocomplete="off">`;
   h += `<div class="sub2">Franja por defecto</div><div class="chips"><button class="chip ${!f.franja ? 'on' : ''}" data-act="pl-franja" data-v="">Según la hora</button>${ORDEN_FRANJAS.map(x => `<button class="chip ${f.franja === x ? 'on' : ''}" data-act="pl-franja" data-v="${x}">${FRANJAS[x].label}</button>`).join('')}</div>`;
   h += `<div class="sub2">Nunca en este plan</div>`;
@@ -1503,6 +1582,7 @@ async function importarArchivo(file) {
   const modo = await dialogo({ titulo: 'Importar copia', texto: `${data.prendas.length} prendas${data.planes ? `, ${data.planes.length} planes` : ''}. ¿Qué hago con lo que ya tienes?`, botones: [{ label: 'Añadir a lo que tengo', valor: 'sumar', estilo: 'pri' }, { label: 'Reemplazar todo', valor: 'reemplazar', estilo: 'bad' }, { label: 'Cancelar', valor: null }] });
   if (!modo) return;
   if (modo === 'reemplazar') { await borrarTodoDatos(true); }
+  else if (data.quitarEjemplo) { const fuera = S.prendas.filter(p => p.ejemplo); for (const p of fuera) { await DB.del('prendas', p.id).catch(() => {}); await borrarFoto(p.id); } S.prendas = S.prendas.filter(p => !p.ejemplo); }
   const nuevas = [];
   for (const raw of data.prendas) {
     const p = normalizarPrenda({ ...raw, foto: false });
@@ -1629,7 +1709,8 @@ const ACT = {
   'plan': el => { if (el.dataset.v !== S.ui.planId) elegirPlan(el.dataset.v); },
   'franja': el => { if (S.ui.franja === el.dataset.v) return; S.ui.franja = el.dataset.v; S.ui.locks = {}; S.ui.puesto = null; S.ui.idx = 0; resetManualSiAuto(); invalidar(); render(); },
   'otra': () => { const r = S.ui.sug; if (!r || r.lista.length < 2) return; S.ui.idx++; if (S.ui.idx >= r.lista.length) { S.ui.idx = 0; toast('Vuelta a la primera opción'); } render(); },
-  'puesto': () => meLoPongo(),
+  'puesto': () => { const r = S.ui.sug; if (r && r.lista[S.ui.idx]) apuntarGusto(r.lista[S.ui.idx].sel, 1); meLoPongo(); },
+  'nomegusta': () => { const r = S.ui.sug; if (!r || !r.lista[S.ui.idx]) return; apuntarGusto(r.lista[S.ui.idx].sel, -1); invalidar(); S.ui.idx = 0; render(); toast('Apuntado. No te lo vuelvo a juntar así.'); },
   'nuevo': () => { S.ui.puesto = null; invalidar(); render(); },
   'lock': el => { const c = el.dataset.capa, id = el.dataset.id; if (S.ui.locks[c] === id) delete S.ui.locks[c]; else S.ui.locks[c] = id; regenerarManteniendo(); render(); },
   'clima': () => abrirHojaClima(),
@@ -1640,7 +1721,8 @@ const ACT = {
   'add': () => abrirFormPrenda(null),
   'prenda': el => abrirFormPrenda(el.dataset.id),
   'colada': () => abrirColada(),
-  'fcapa': el => { S.ui.fCapa = el.dataset.v; render(); },
+  'fcapa': el => { S.ui.fCapa = el.dataset.v; S.ui.fEtiq = ''; render(); },
+  'fetiq': el => { S.ui.fEtiq = el.dataset.v; render(); },
   'festado': el => { S.ui.fEstado = el.dataset.v; render(); },
   'cerrar-hoja': () => cerrarHoja(),
   'f-foto': () => $('#inFoto').click(),
@@ -1653,6 +1735,10 @@ const ACT = {
   'f-paso': el => { const f = S.form, k = el.dataset.k, d = +el.dataset.d; const lim = { abrigo: [0, 5], form: [1, 5], usosMax: [0, 15] }[k]; f[k] = Math.min(lim[1], Math.max(lim[0], f[k] + d)); refrescarHoja(); },
   'f-imp': () => { S.form.imp = !S.form.imp; refrescarHoja(); },
   'f-fav': () => { S.form.fav = !S.form.fav; refrescarHoja(); },
+  'f-ajuste': el => { S.form.ajuste = el.dataset.v; refrescarHoja(); },
+  'f-trabajo': () => { S.form.trabajo = S.form.trabajo === false; refrescarHoja(); },
+  'f-solotraje': () => { S.form.soloTraje = !S.form.soloTraje; refrescarHoja(); },
+  'f-etiq': el => { S.form.etiqueta = el.dataset.v; refrescarHoja(); },
   'f-guardar': el => guardarForm(el.dataset.otra === '1'),
   'f-estado': el => cambiarEstado(S.form.id, el.dataset.v),
   'f-borrar': () => borrarPrenda(S.form.id),
@@ -1667,6 +1753,12 @@ const ACT = {
   'm-auto': () => { S.manual = null; invalidar(); cerrarHoja(); render(); },
   'm-recargar': () => { S.manual = null; cerrarHoja(); cargarClima(true); toast('Actualizando el tiempo…'); },
   'p-sens': el => { S.perfil.sensacion = el.dataset.v; guardarKV('perfil', S.perfil); invalidar(); render(); },
+  'p-jersey': () => { S.perfil.siempreJersey = S.perfil.siempreJersey === false; guardarKV('perfil', S.perfil); invalidar(); render(); },
+  'p-chaqueta': () => { S.perfil.siempreChaqueta = S.perfil.siempreChaqueta === false; guardarKV('perfil', S.perfil); invalidar(); render(); },
+  'p-jhasta': el => { S.perfil.jerseyHasta = Math.max(8, Math.min(28, (S.perfil.jerseyHasta || 20) + (+el.dataset.d))); guardarKV('perfil', S.perfil); invalidar(); render(); },
+  'p-chasta': el => { S.perfil.chaquetaHasta = Math.max(6, Math.min(26, (S.perfil.chaquetaHasta || 18) + (+el.dataset.d))); guardarKV('perfil', S.perfil); invalidar(); render(); },
+  'p-chaleco': () => { S.perfil.siempreChaleco = S.perfil.siempreChaleco === false; guardarKV('perfil', S.perfil); invalidar(); render(); },
+  'p-chlhasta': el => { S.perfil.chalecoHasta = Math.max(4, Math.min(24, (S.perfil.chalecoHasta || 14) + (+el.dataset.d))); guardarKV('perfil', S.perfil); invalidar(); render(); },
   'p-reset-ap': () => { S.perfil.aprendido = 0; guardarKV('perfil', S.perfil); invalidar(); render(); },
   'p-pref': el => { toggleArr(S.perfil.prefiero, el.dataset.v); S.perfil.evito = S.perfil.evito.filter(x => x !== el.dataset.v); guardarKV('perfil', S.perfil); invalidar(); render(); },
   'p-evito': el => { toggleArr(S.perfil.evito, el.dataset.v); S.perfil.prefiero = S.perfil.prefiero.filter(x => x !== el.dataset.v); guardarKV('perfil', S.perfil); invalidar(); render(); },
@@ -1698,6 +1790,7 @@ const ACT = {
   'p-repaso': el => { S.perfil.repasoCada = Math.max(2, Math.min(14, (S.perfil.repasoCada || 4) + (+el.dataset.d))); guardarKV('perfil', S.perfil); render(); },
   'pl-icono': el => { S.pf.icono = el.dataset.v; refrescarHoja(); },
   'pl-paso': el => { const f = S.pf, k = el.dataset.k; f[k] = Math.max(1, Math.min(5, f[k] + (+el.dataset.d))); if (f.min > f.max) { if (k === 'min') f.max = f.min; else f.min = f.max; } refrescarHoja(); },
+  'pl-trabajo': () => { S.pf.trabajo = !S.pf.trabajo; refrescarHoja(); },
   'pl-traje': () => { S.pf.traje = !S.pf.traje; S.pf.sinMedia = S.pf.traje; refrescarHoja(); },
   'pl-franja': el => { S.pf.franja = el.dataset.v || null; refrescarHoja(); },
   'pl-excl': el => { toggleArr(S.pf.excluir, el.dataset.v); refrescarHoja(); },
@@ -1752,7 +1845,7 @@ async function iniciar() {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }
 }
-window.__armario = { S, generarSugerencias, contexto, W, justificar, resumenClima, detectarColores, cargarClima, render, version: APP_VERSION };
+window.__armario = { S, generarSugerencias, contexto, puntuarPieza, pasaFiltro, W, justificar, resumenClima, detectarColores, cargarClima, render, version: APP_VERSION };
 iniciar();
 })();
 </script>
